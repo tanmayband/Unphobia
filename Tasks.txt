@@ -1,0 +1,34 @@
+Tasks:
+1. Ghost
+    1.1 Movement (DONE)
+    1.2 Ability Popup and interaction
+    1.3 Abilities decide + correspnding SFX/VFX
+    1.4 Abilities effects <--> Interactables for Ghost
+
+2. Detective
+    2.1 Movement: NavMesh pathfinding (Ongoing)
+    2.2 Decision-making: Targets (objectives), Hiding, Fleeing, Attacking
+        2.2.1 If-else or Finite state machine
+    2.3 Scare meter and logic: Too many scares, repeated scares
+
+3. UI
+    3.1 Scare meter progress bar
+    3.2 Ability popup
+    3.3 Game over: When ghost killed OR detective's objectives completed
+    3.4 Level finish screen
+    3.5 Game end screen
+    3.6 Start menu
+
+4. SFX/VFX
+    4.1 Abilities SFX/VFX
+    4.2 Ambient SFX
+    4.3 Level lights: 2D lights in-built
+
+5. Visuals
+    5.1 House assets
+    5.2 Comic cutscenes
+    5.3 Sprites: Ghost, Detective
+
+6. Admin
+    6.1 4 levels
+    6.2 Level progression: Simple function call when detective flees
