@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GhostController : MonoBehaviour, IGhost
 {
@@ -10,7 +11,9 @@ public class GhostController : MonoBehaviour, IGhost
     [SerializeField]
     private float ghostSpeed = 5f;
     [SerializeField]
-    private float scareCooldownTime = 20f; 
+    private float scareCooldownTime = 20f;
+    [SerializeField]
+    private TextMeshPro scareCooldownText; 
 
     private CustomInput customInputActions;
     private IScareable scareableEntity;
@@ -28,7 +31,7 @@ public class GhostController : MonoBehaviour, IGhost
     // Start is called before the first frame update
     void Start()
     {
-        
+        scareCooldownText.text = $"Scare Timeout: {scareCooldownTime}";
     }
 
     void Update()
@@ -70,6 +73,7 @@ public class GhostController : MonoBehaviour, IGhost
         while(cooldown > 0)
         {
             cooldown -= 1;
+            scareCooldownText.text = $"Scare Timeout: {cooldown}";
             yield return new WaitForSeconds(1);
         }
         scareEnabled = true;

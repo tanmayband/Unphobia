@@ -2014,10 +2014,17 @@ PrefabInstance:
       propertyPath: clips.Array.size
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 6842557522766596263, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
+      propertyPath: scareCooldownTime
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5479596486347956220, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
 --- !u!1001 &8607561635491654543
 PrefabInstance:
