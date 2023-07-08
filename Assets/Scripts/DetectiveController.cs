@@ -32,15 +32,21 @@ public class DetectiveController : MonoBehaviour, IScareable
     private TextMeshPro resistanceText;
     [SerializeField]
     private TextMeshPro stateText;
+    [SerializeField]
+    private TextMeshPro fearAmountText;
 
     private DetectiveDestination currentDestination;
     private DETECTIVE_STATE currentState;
+    private DETECTIVE_STATE previousState;
     private Coroutine timeSpendCoroutine;
     private float detectiveFear = 0;    // 0-100 (slow climbing)
     private float detectiveResistance = 0;   // 0-100 (fast falling)
     private Coroutine fearCooldownCoroutine;
     private Coroutine resistanceCooldownCoroutine;
     private Coroutine frozenCoroutine;
+    private DETECTIVE_FEAR_LEVEL currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
+    private IGhost ghostObject;
+    private float pursuitWarmup = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +56,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         SetupAllDestinations();
 
         detectiveVisibility.DestinationFound += NewDestinationFound;
+        detectiveVisibility.KillableFound += NewKillableFound;
 
         SetDetectiveState(DETECTIVE_STATE.EXPLORING);
         GoToDestination(investigationSpots[0]);
@@ -62,10 +69,17 @@ public class DetectiveController : MonoBehaviour, IScareable
     // Update is called once per frame
     void Update()
     {
-        // agent has reached a destination
-        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+        if(currentState != DETECTIVE_STATE.PURSUING)
         {
-            DestinationReached();
+            // agent has reached a destination
+            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+            {
+                DestinationReached();
+            }
+        }
+        else
+        {
+            Pursuit();
         }
     }
 
@@ -85,6 +99,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void SetDetectiveState(DETECTIVE_STATE newState)
     {
+        previousState = currentState;
         currentState = newState;
         Debug.Log($"Now state: {currentState}");
         stateText.text = $"State: {currentState}";
@@ -193,6 +208,11 @@ public class DetectiveController : MonoBehaviour, IScareable
         }
     }
 
+    private void NewKillableFound(IGhost killable)
+    {
+        ghostObject = killable;
+    }
+
     // SCARE RESPONSES
     public void Scare(float fearAmount)
     {
@@ -210,40 +230,71 @@ public class DetectiveController : MonoBehaviour, IScareable
     private void UpdateFear(float fearAmount)
     {
         float fearDelta = fearAmount - (fearAmount * (detectiveResistance / 100));
-        Debug.Log($"BOO with {fearDelta}");
         SetFear(fearDelta);
-        if(detectiveResistance <= 0)
-        {
-            resistanceCooldownCoroutine = StartCoroutine(ResistanceCooldown());
-        }
     }
 
     private void SetFear(float fearDelta)
     {
         detectiveFear += fearDelta;
+        fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
+        fearAmountText.text = $"Fear Amount: {fearDelta}";
+
+        DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
+
+        if(detectiveFear <= 30)
+            currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
+        else if(detectiveFear <= 60)
+            currentFearLevel = DETECTIVE_FEAR_LEVEL.HIDE;
+        else if(detectiveFear <= 90)
+            currentFearLevel = DETECTIVE_FEAR_LEVEL.ATTACK;
+        else
+            currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
+
         if(fearCooldownCoroutine == null)
         {
             fearCooldownCoroutine = StartCoroutine(FearCooldown());
         }
 
-        if(fearDelta >= 10)
+        if(currentFearLevel != previousFearLevel)
         {
-            if(detectiveFear <= 30)
+            ProcessFear();
+        }
+        else if(fearDelta >= 5)
+        {
+            if(resistanceCooldownCoroutine != null)
+                StopCoroutine(resistanceCooldownCoroutine);
+            resistanceCooldownCoroutine = StartCoroutine(ResistanceCooldown());
+
+            ProcessFear();
+        }
+    }
+
+    private void ProcessFear()
+    {
+        switch (currentFearLevel)
+        {
+            case DETECTIVE_FEAR_LEVEL.FREEZE:
             {
                 frozenCoroutine = StartCoroutine(FreezeCountdown());
+                break;
             }
-            else if(detectiveFear <= 60)
+            case DETECTIVE_FEAR_LEVEL.HIDE:
             {
                 GoToHidingSpot();
+                break;
             }
-            else if(detectiveFear <= 90)
+            case DETECTIVE_FEAR_LEVEL.ATTACK:
             {
-                Debug.Log("ATTACK");
+                pursuitWarmup = 5;
+                StopCoroutine(timeSpendCoroutine);
+                SetDetectiveState(DETECTIVE_STATE.PURSUING);
+                break;
             }
-            else
+            case DETECTIVE_FEAR_LEVEL.FLEE:
             {
                 SetDetectiveState(DETECTIVE_STATE.FLEEING);
                 GoToDestination(houseEntrance);
+                break;
             }
         }
     }
@@ -280,8 +331,8 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     IEnumerator FreezeCountdown()
     {
-        StopCoroutine(timeSpendCoroutine);
-        DETECTIVE_STATE previousState = currentState;
+        if(timeSpendCoroutine != null)
+            StopCoroutine(timeSpendCoroutine);
         SetDetectiveState(DETECTIVE_STATE.FROZEN);
         navMeshAgent.isStopped = true;
 
@@ -294,21 +345,46 @@ public class DetectiveController : MonoBehaviour, IScareable
 
         navMeshAgent.isStopped = false;
 
+        ResumeActivity();
+        frozenCoroutine = null;
+    }
+
+    private void ResumeActivity()
+    {
         SetDetectiveState(previousState);
         switch (currentState)
         {
-            // case DETECTIVE_STATE.EXPLORING:
-            // {
-
-            // }
+            case DETECTIVE_STATE.EXPLORING:
+            {
+                GoToNextInvestigation();
+                break;
+            }
             case DETECTIVE_STATE.INVESTIGATING:
             {
                 timeSpendCoroutine = StartCoroutine(SpendTimeOnDestination());
                 break;
             }
         }
+    }
 
-        frozenCoroutine = null;
+    private void Pursuit()
+    {
+        navMeshAgent.destination = ghostObject.GetPosition();
+        pursuitWarmup -= Time.deltaTime;
+        
+        if(navMeshAgent.remainingDistance < 2f)
+        {
+            if(pursuitWarmup <= 0)
+            {
+                Debug.Log("Start firing");
+                if(Random.value > 0.5)
+                    ghostObject.Kill();
+            }
+        }
+        else if(navMeshAgent.remainingDistance >= 4f)
+        {
+            ResumeActivity();
+        }
     }
 }
 

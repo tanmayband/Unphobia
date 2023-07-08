@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GhostController : MonoBehaviour
+public class GhostController : MonoBehaviour, IGhost
 {
     [SerializeField]
     private Rigidbody2D ghostBody;
     [SerializeField]
     private float ghostSpeed = 5f;
+    [SerializeField]
+    private float scareCooldownTime = 5f; 
 
     private CustomInput customInputActions;
     private IScareable scareableEntity;
+    private bool scareEnabled = true;
+    
 
     private void Awake()
     {
@@ -52,6 +56,38 @@ public class GhostController : MonoBehaviour
 
     private void CauseAScare(InputAction.CallbackContext context)
     {
-        scareableEntity?.Scare(10);
+        if(scareEnabled)
+        {
+            scareableEntity?.Scare(10);
+            StartCoroutine(ScareCooldown());
+        }
     }
+
+    IEnumerator ScareCooldown()
+    {
+        scareEnabled = false;
+        float cooldown = scareCooldownTime;
+        while(cooldown > 0)
+        {
+            cooldown -= 1;
+            yield return new WaitForSeconds(1);
+        }
+        scareEnabled = true;
+    }
+
+    public void Kill()
+    {
+        Debug.Log("ded GAME OVER");
+    }
+
+    public Vector2 GetPosition()
+    {
+        return transform.position;
+    } 
+}
+
+public interface IGhost
+{
+    public void Kill();
+    public Vector2 GetPosition();
 }

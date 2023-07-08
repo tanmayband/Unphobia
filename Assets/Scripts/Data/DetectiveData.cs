@@ -54,3 +54,11 @@ public enum DETECTIVE_STATE
     FLEEING,
     GONE
 }
+
+public enum DETECTIVE_FEAR_LEVEL
+{
+    FREEZE,
+    HIDE,
+    ATTACK,
+    FLEE
+}
