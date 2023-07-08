@@ -549,17 +549,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
   m_PrefabInstance: {fileID: 429591473}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &429591475 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
-  m_PrefabInstance: {fileID: 429591473}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58f151ac46220764293f9ad914264b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &461550245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,17 +1450,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
   m_PrefabInstance: {fileID: 1092982617}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1092982619 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
-  m_PrefabInstance: {fileID: 1092982617}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58f151ac46220764293f9ad914264b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1135384656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1514,11 +1492,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.74
+      value: 5.19
       objectReference: {fileID: 0}
     - target: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.8
+      value: 3.64
       objectReference: {fileID: 0}
     - target: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1569,17 +1547,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
   m_PrefabInstance: {fileID: 1135384656}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1135384658 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
-  m_PrefabInstance: {fileID: 1135384656}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58f151ac46220764293f9ad914264b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1149754565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1963,17 +1930,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
   m_PrefabInstance: {fileID: 1821687336}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1821687338 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
-  m_PrefabInstance: {fileID: 1821687336}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58f151ac46220764293f9ad914264b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4578212943862641817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2053,24 +2009,24 @@ PrefabInstance:
       objectReference: {fileID: 479587287}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.size
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[0]
       value: 
-      objectReference: {fileID: 1135384658}
+      objectReference: {fileID: 894722409}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[1]
       value: 
-      objectReference: {fileID: 429591475}
+      objectReference: {fileID: 894722409}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[2]
       value: 
-      objectReference: {fileID: 1821687338}
+      objectReference: {fileID: 894722409}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[3]
       value: 
-      objectReference: {fileID: 1092982619}
+      objectReference: {fileID: 894722409}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[4]
       value: 

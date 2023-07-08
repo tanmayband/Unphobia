@@ -8,6 +8,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private NavMeshAgent navMeshAgent;
     [SerializeField]
+    private DetectiveVisibility detectiveVisibility;
+    [SerializeField]
     private DetectiveDestination houseEntrance;
     [SerializeField]
     private List<DetectiveDestination> investigationSpots;
@@ -24,6 +26,8 @@ public class DetectiveController : MonoBehaviour, IScareable
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
         SetupAllDestinations();
+
+        detectiveVisibility.DestinationFound += NewDestinationFound;
 
         GoToDestination(investigationSpots[0]);
     }
@@ -154,6 +158,15 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
         }
         return hidingSpot;
+    }
+
+    private void NewDestinationFound(DetectiveDestination destination)
+    {
+        if(destination.GetDestinationState() == DETECTIVE_STATE.HIDING && !hidingSpots.Contains(destination))
+        {
+            destination.SetupDestination();
+            hidingSpots.Add(destination);
+        }
     }
 
     // STATE RESPONSES
