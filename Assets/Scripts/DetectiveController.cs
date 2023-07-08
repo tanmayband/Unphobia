@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class DetectiveController : MonoBehaviour
+public class DetectiveController : MonoBehaviour, IScareable
 {
     [SerializeField]
     private NavMeshAgent navMeshAgent;
@@ -36,11 +36,6 @@ public class DetectiveController : MonoBehaviour
         {
             DestinationReached();
         }
-
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            GoToHidingSpot();
-        }
     }
 
     private void SetupAllDestinations()
@@ -52,6 +47,12 @@ public class DetectiveController : MonoBehaviour
             dest.SetupDestination();
 
         houseEntrance.SetupDestination();
+    }
+
+    private void SetDetectiveState(DETECTIVE_STATE newState)
+    {
+        currentState = newState;
+        Debug.Log($"Now state: {currentState}");
     }
 
     private void GoToDestination(DetectiveDestination destination)
@@ -72,7 +73,7 @@ public class DetectiveController : MonoBehaviour
             }
             case DETECTIVE_STATE.EXITING:
             {
-                currentState = DETECTIVE_STATE.GONE; 
+                SetDetectiveState(DETECTIVE_STATE.GONE); 
                 Debug.Log("boo GAME OVER");
                 break;
             }
@@ -86,13 +87,11 @@ public class DetectiveController : MonoBehaviour
 
     IEnumerator SpendTimeOnDestination()
     {
-        currentState = currentDestination.GetDestinationState();
-        Debug.Log($"Started count down on state {currentState}");
+        SetDetectiveState(currentDestination.GetDestinationState());
         while(currentDestination.secondsLeft > 0)
         {
             yield return new WaitForSeconds(1f);
             currentDestination.DestinationUpdate(1);
-            Debug.Log($"Counting down 1s on state {currentState}");
         }
 
         DestinationDone();
@@ -123,13 +122,13 @@ public class DetectiveController : MonoBehaviour
     {
         if(investigationSpots.Count > 0)
         {
-            currentState = DETECTIVE_STATE.EXPLORING;
+            SetDetectiveState(DETECTIVE_STATE.EXPLORING);
             GoToDestination(investigationSpots[0]);
         }
         else
         {
             // everything investigated
-            currentState = DETECTIVE_STATE.EXITING;
+            SetDetectiveState(DETECTIVE_STATE.EXITING);
             GoToDestination(houseEntrance);
         }
     }
@@ -137,7 +136,7 @@ public class DetectiveController : MonoBehaviour
     private void GoToHidingSpot()
     {
         StopCoroutine(TimeSpendCoroutine);
-        currentState = DETECTIVE_STATE.GOINGHIDING;
+        SetDetectiveState(DETECTIVE_STATE.GOINGHIDING);
         GoToDestination(GetClosestHidingSpot());
     }
 
@@ -156,4 +155,24 @@ public class DetectiveController : MonoBehaviour
         }
         return hidingSpot;
     }
+
+    // STATE RESPONSES
+    public void Scare()
+    {
+        switch (currentState)
+        {
+            case DETECTIVE_STATE.EXPLORING:
+            case DETECTIVE_STATE.INVESTIGATING:
+            {
+                Debug.Log("BOO!");
+                GoToHidingSpot();
+                break;
+            }
+        }
+    }
+}
+
+public interface IScareable
+{
+    public void Scare();
 }
