@@ -52,6 +52,6 @@ public class GhostController : MonoBehaviour
 
     private void CauseAScare(InputAction.CallbackContext context)
     {
-        scareableEntity?.Scare();
+        scareableEntity?.Scare(10);
     }
 }

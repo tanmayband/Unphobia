@@ -6,8 +6,7 @@ using TMPro;
 [System.Serializable]
 public class DetectiveDestination : MonoBehaviour
 {
-    [SerializeField]
-    private float secondsToSpend;
+    public float secondsToSpend;
     [SerializeField]
     private DETECTIVE_STATE stateWhenReached;
     [SerializeField]
@@ -47,6 +46,7 @@ public enum DETECTIVE_STATE
 {
     EXPLORING,
     INVESTIGATING,
+    FROZEN,
     GOINGHIDING,
     HIDING,
     PURSUING,
