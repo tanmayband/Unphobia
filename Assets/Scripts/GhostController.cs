@@ -10,7 +10,7 @@ public class GhostController : MonoBehaviour, IGhost
     [SerializeField]
     private float ghostSpeed = 5f;
     [SerializeField]
-    private float scareCooldownTime = 5f; 
+    private float scareCooldownTime = 20f; 
 
     private CustomInput customInputActions;
     private IScareable scareableEntity;

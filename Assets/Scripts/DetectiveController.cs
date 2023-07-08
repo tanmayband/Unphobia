@@ -40,9 +40,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private DETECTIVE_STATE previousState;
     private Coroutine timeSpendCoroutine;
     private float detectiveFear = 0;    // 0-100 (slow climbing)
-    private float detectiveResistance = 0;   // 0-100 (fast falling)
     private Coroutine fearCooldownCoroutine;
-    private Coroutine resistanceCooldownCoroutine;
     private Coroutine frozenCoroutine;
     private DETECTIVE_FEAR_LEVEL currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
     private IGhost ghostObject;
@@ -63,7 +61,6 @@ public class DetectiveController : MonoBehaviour, IScareable
         
         // DEBUG:
         fearText.text = $"Fear: {Mathf.RoundToInt(detectiveFear)}";
-        resistanceText.text = $"Resistance: {Mathf.RoundToInt(detectiveResistance)}";
     }
 
     // Update is called once per frame
@@ -229,7 +226,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void UpdateFear(float fearAmount)
     {
-        float fearDelta = fearAmount - (fearAmount * (detectiveResistance / 100));
+        float fearDelta = fearAmount;
         SetFear(fearDelta);
     }
 
@@ -255,18 +252,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             fearCooldownCoroutine = StartCoroutine(FearCooldown());
         }
 
-        if(currentFearLevel != previousFearLevel)
-        {
-            ProcessFear();
-        }
-        else if(fearDelta >= 5)
-        {
-            if(resistanceCooldownCoroutine != null)
-                StopCoroutine(resistanceCooldownCoroutine);
-            resistanceCooldownCoroutine = StartCoroutine(ResistanceCooldown());
-
-            ProcessFear();
-        }
+        ProcessFear();
     }
 
     private void ProcessFear()
@@ -308,18 +294,6 @@ public class DetectiveController : MonoBehaviour, IScareable
             yield return new WaitForSeconds(detectiveFearCooldownRate);
         }
         fearCooldownCoroutine = null;
-    }
-
-    IEnumerator ResistanceCooldown()
-    {
-        detectiveResistance = 100;
-        while(detectiveResistance > 0)
-        {
-            detectiveResistance -= 1;
-            resistanceText.text = $"Resistance: {detectiveResistance.ToString("F2")}"; // Mathf.RoundToInt
-            yield return new WaitForSeconds(detectiveResistanceCooldownRate);
-        }
-        resistanceCooldownCoroutine = null;
     }
 
     private void GoToHidingSpot()
