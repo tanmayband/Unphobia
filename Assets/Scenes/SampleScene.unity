@@ -173,7 +173,6 @@ GameObject:
   - component: {fileID: 59330010}
   - component: {fileID: 59330008}
   - component: {fileID: 59330012}
-  - component: {fileID: 59330011}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -260,40 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7cedb5088d56147995672e34324010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &59330011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59330007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: f7786009dfd227d4ab016959873a4772, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b50bed56-62bc-4468-9ea8-bb96f3e794a7
-    m_ActionName: Ghost/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Ghost
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  ghostBody: {fileID: 59330012}
+  ghostSpeed: 0
 --- !u!50 &59330012
 Rigidbody2D:
   serializedVersion: 4
