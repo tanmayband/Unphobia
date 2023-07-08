@@ -11,13 +11,14 @@ public class GhostController : MonoBehaviour
     private float ghostSpeed = 5f;
 
     private CustomInput customInputActions;
+    private IScareable scareableEntity;
 
     private void Awake()
     {
         customInputActions = new CustomInput();
         customInputActions.Ghost.Enable();
 
-        customInputActions.Ghost.Movement.performed += Move;
+        customInputActions.Ghost.Scare.performed += CauseAScare;
     }
 
     // Start is called before the first frame update
@@ -32,8 +33,25 @@ public class GhostController : MonoBehaviour
         ghostBody.velocity = inputVector * ghostSpeed;
     }
 
-    public void Move(InputAction.CallbackContext context)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.TryGetComponent(out IScareable scareable))
+        {
+            scareableEntity = scareable;
+        }
+    }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.TryGetComponent(out IScareable scareable))
+        {
+            if(scareableEntity == scareable)
+                scareableEntity = null;
+        }
+    }
+
+    private void CauseAScare(InputAction.CallbackContext context)
+    {
+        scareableEntity?.Scare();
     }
 }
