@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [System.Serializable]
-public class DetectiveDestination
+public class DetectiveDestination : MonoBehaviour
 {
-    [SerializeField]
-    private Transform location;
     [SerializeField]
     private float secondsToSpend;
     [SerializeField]
     private DETECTIVE_STATE stateWhenReached;
+    [SerializeField]
+    private TextMeshPro timeLeftText;
+
     public float secondsLeft {get; private set;}
 
     public void SetupDestination()
     {
         secondsLeft = secondsToSpend;
+        timeLeftText.text = secondsLeft.ToString();
     }
 
     public Vector3 GetDestinationLocation()
     {
-        return location.position;
+        return transform.position;
     }
 
     public DETECTIVE_STATE GetDestinationState()
@@ -31,6 +34,12 @@ public class DetectiveDestination
     public void DestinationUpdate(float secondsDone)
     {
         secondsLeft -= secondsDone;
+        timeLeftText.text = secondsLeft.ToString();
+    }
+
+    public void ResetDestination()
+    {
+        SetupDestination();
     }
 }
 
@@ -38,6 +47,7 @@ public enum DETECTIVE_STATE
 {
     EXPLORING,
     INVESTIGATING,
+    GOINGHIDING,
     HIDING,
     PURSUING,
     EXITING,
