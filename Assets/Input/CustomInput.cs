@@ -114,6 +114,54 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Admin"",
+            ""id"": ""54c74a71-1c7a-428e-bfca-e59a9961b768"",
+            ""actions"": [
+                {
+                    ""name"": ""RestartLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""9dda6ce1-b9a3-42d0-ae6d-4bbf0216644f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MainMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3002c8b-1750-432f-a91c-6218837705c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""327f3413-6d0d-41fb-88f5-3cc95cb48fe6"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RestartLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40ebcaac-fc3d-42c8-b082-7ad33d3f00a2"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MainMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -122,6 +170,10 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
         m_Ghost = asset.FindActionMap("Ghost", throwIfNotFound: true);
         m_Ghost_Movement = m_Ghost.FindAction("Movement", throwIfNotFound: true);
         m_Ghost_Scare = m_Ghost.FindAction("Scare", throwIfNotFound: true);
+        // Admin
+        m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
+        m_Admin_RestartLevel = m_Admin.FindAction("RestartLevel", throwIfNotFound: true);
+        m_Admin_MainMenu = m_Admin.FindAction("MainMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -233,9 +285,68 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
         }
     }
     public GhostActions @Ghost => new GhostActions(this);
+
+    // Admin
+    private readonly InputActionMap m_Admin;
+    private List<IAdminActions> m_AdminActionsCallbackInterfaces = new List<IAdminActions>();
+    private readonly InputAction m_Admin_RestartLevel;
+    private readonly InputAction m_Admin_MainMenu;
+    public struct AdminActions
+    {
+        private @CustomInput m_Wrapper;
+        public AdminActions(@CustomInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @RestartLevel => m_Wrapper.m_Admin_RestartLevel;
+        public InputAction @MainMenu => m_Wrapper.m_Admin_MainMenu;
+        public InputActionMap Get() { return m_Wrapper.m_Admin; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AdminActions set) { return set.Get(); }
+        public void AddCallbacks(IAdminActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AdminActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AdminActionsCallbackInterfaces.Add(instance);
+            @RestartLevel.started += instance.OnRestartLevel;
+            @RestartLevel.performed += instance.OnRestartLevel;
+            @RestartLevel.canceled += instance.OnRestartLevel;
+            @MainMenu.started += instance.OnMainMenu;
+            @MainMenu.performed += instance.OnMainMenu;
+            @MainMenu.canceled += instance.OnMainMenu;
+        }
+
+        private void UnregisterCallbacks(IAdminActions instance)
+        {
+            @RestartLevel.started -= instance.OnRestartLevel;
+            @RestartLevel.performed -= instance.OnRestartLevel;
+            @RestartLevel.canceled -= instance.OnRestartLevel;
+            @MainMenu.started -= instance.OnMainMenu;
+            @MainMenu.performed -= instance.OnMainMenu;
+            @MainMenu.canceled -= instance.OnMainMenu;
+        }
+
+        public void RemoveCallbacks(IAdminActions instance)
+        {
+            if (m_Wrapper.m_AdminActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAdminActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AdminActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AdminActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AdminActions @Admin => new AdminActions(this);
     public interface IGhostActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnScare(InputAction.CallbackContext context);
+    }
+    public interface IAdminActions
+    {
+        void OnRestartLevel(InputAction.CallbackContext context);
+        void OnMainMenu(InputAction.CallbackContext context);
     }
 }

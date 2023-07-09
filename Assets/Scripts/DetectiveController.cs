@@ -49,18 +49,20 @@ public class DetectiveController : MonoBehaviour, IScareable
     private IGhost ghostObject;
     private float pursuitWarmup = 5;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
+        enabled = false;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         SetupAllDestinations();
 
         detectiveVisibility.DestinationFound += NewDestinationFound;
         detectiveVisibility.KillableFound += NewKillableFound;
-
-        SetDetectiveState(DETECTIVE_STATE.EXPLORING);
-        GoToDestination(investigationSpots[0]);
         
         // DEBUG:
         fearText.text = $"Fear: {Mathf.RoundToInt(detectiveFear)}";
@@ -95,6 +97,13 @@ public class DetectiveController : MonoBehaviour, IScareable
         }
 
         houseEntrance.SetupDestination();
+    }
+
+    public void EnterHouse()
+    {
+        enabled = true;
+        SetDetectiveState(DETECTIVE_STATE.EXPLORING);
+        GoToDestination(investigationSpots[0]);
     }
 
     private void SetDetectiveState(DETECTIVE_STATE newState)

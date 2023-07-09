@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
@@ -8,6 +10,19 @@ public class LevelController : MonoBehaviour
     private GhostController ghost;
     [SerializeField]
     private DetectiveController detective;
+    [SerializeField]
+    private float detectiveEntersHouseAfter = 10;
+
+    private CustomInput customInputActions;
+
+    private void Awake()
+    {
+        customInputActions = new CustomInput();
+        customInputActions.Admin.Enable();
+
+        customInputActions.Admin.RestartLevel.performed += RestartLevel;
+        customInputActions.Admin.MainMenu.performed += GoToMainMenu;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +30,19 @@ public class LevelController : MonoBehaviour
         ghost.GhostDeathEvent += GhostDeath;
         detective.DetectiveEndEvent += DetectiveEnd;
         detective.DetectiveFearEvent += DetectiveFearUpdate;
+
+        StartCoroutine(WaitBeforeStartingDetective());
+    }
+
+    IEnumerator WaitBeforeStartingDetective()
+    {
+        float timeLeft = detectiveEntersHouseAfter;
+        while(timeLeft > 0)
+        {
+            yield return new WaitForSeconds(1);
+            timeLeft -= 1;
+        }
+        detective.EnterHouse();
     }
 
     private void DetectiveFearUpdate(float newFear)
@@ -53,6 +81,21 @@ public class LevelController : MonoBehaviour
 
     private void LevelComplete()
     {
-        // show level complete
+        // show level complete OR GoToNextLevel();
+    }
+
+    private void RestartLevel(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void GoToNextLevel()
+    {
+
+    }
+
+    private void GoToMainMenu(InputAction.CallbackContext context)
+    {
+        //SceneManager.LoadScene();
     }
 }
