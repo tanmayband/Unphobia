@@ -192,7 +192,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: secondsToSpend
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: stateWhenReached
@@ -783,7 +783,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: secondsToSpend
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: stateWhenReached
@@ -1090,7 +1090,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: secondsToSpend
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: stateWhenReached
@@ -1585,7 +1585,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: secondsToSpend
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: stateWhenReached
@@ -1718,7 +1718,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: secondsToSpend
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: stateWhenReached
@@ -1806,7 +1806,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: secondsToSpend
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
       propertyPath: stateWhenReached
@@ -2116,7 +2116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6842557522766596263, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
       propertyPath: scareCooldownTime
-      value: 2
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2201,7 +2201,7 @@ PrefabInstance:
       objectReference: {fileID: 20645034}
     - target: {fileID: 5727756795386883709, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: m_Speed
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8162534627180686811, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: m_Name
@@ -2211,6 +2211,10 @@ PrefabInstance:
       propertyPath: houseEntrance
       value: 
       objectReference: {fileID: 479587287}
+    - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      propertyPath: hideForSeconds
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.size
       value: 1

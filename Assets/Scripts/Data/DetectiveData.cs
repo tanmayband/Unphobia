@@ -44,6 +44,7 @@ public class DetectiveDestination : MonoBehaviour
 
 public enum DETECTIVE_STATE
 {
+    DISABLED,
     EXPLORING,
     INVESTIGATING,
     FROZEN,

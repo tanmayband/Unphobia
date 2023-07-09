@@ -23,6 +23,10 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private float gunSeconds = 5f;
     [SerializeField]
+    private float walkSpeed = 2f;
+    [SerializeField]
+    private float runSpeed = 4f;
+    [SerializeField]
     private BetterCollider2D visibiltySphere;
     [SerializeField]
     private ParticleSystem attackFX;
@@ -43,22 +47,22 @@ public class DetectiveController : MonoBehaviour, IScareable
     public event DetectiveFearDelegate DetectiveFearEvent;
 
     private DetectiveDestination currentDestination;
-    private DETECTIVE_STATE currentState;
+    private DETECTIVE_STATE currentState = DETECTIVE_STATE.DISABLED;
     private DETECTIVE_STATE previousState;
     private Coroutine timeSpendCoroutine;
-    private float detectiveFear = 0;    // 0-100 (slow falling)
+    private float detectiveFear = 55;    // 0-100 (slow falling)
     private Coroutine fearCooldownCoroutine;
     private Coroutine frozenCoroutine;
     private DETECTIVE_FEAR_LEVEL currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
     private IGhost ghostObject;
     private float pursuitWarmup = 5;
+    private bool pursuitWarmupDone;
 
     private void Awake()
     {
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
         attackFX.Stop();
-        enabled = false;
     }
 
     // Start is called before the first frame update
@@ -75,17 +79,20 @@ public class DetectiveController : MonoBehaviour, IScareable
     // Update is called once per frame
     void Update()
     {
-        if(currentState != DETECTIVE_STATE.PURSUING)
+        if(currentState != DETECTIVE_STATE.DISABLED)
         {
-            // agent has reached a destination
-            if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+            if(currentState != DETECTIVE_STATE.PURSUING)
             {
-                DestinationReached();
+                // agent has reached a destination
+                if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
+                {
+                    DestinationReached();
+                }
             }
-        }
-        else
-        {
-            Pursuit();
+            else
+            {
+                Pursuit();
+            }
         }
     }
 
@@ -105,7 +112,6 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     public void EnterHouse()
     {
-        enabled = true;
         SetDetectiveState(DETECTIVE_STATE.EXPLORING);
         GoToDestination(investigationSpots[0]);
     }
@@ -162,7 +168,8 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void DestinationDone()
     {
-        StopCoroutine(timeSpendCoroutine);
+        if(timeSpendCoroutine != null)
+            StopCoroutine(timeSpendCoroutine);
         
         switch (currentState)
         {
@@ -260,6 +267,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void SetFear(float fearDelta)
     {
+        // Debug.Log(detectiveFear);
         detectiveFear += fearDelta;
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
         fearAmountText.text = $"Fear Amount: {fearDelta}";
@@ -300,10 +308,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_FEAR_LEVEL.ATTACK:
             {
-                pursuitWarmup = 5;
-                StopCoroutine(timeSpendCoroutine);
-                StartCoroutine(StartGun());
-                SetDetectiveState(DETECTIVE_STATE.PURSUING);
+                StartPursuit();
                 break;
             }
             case DETECTIVE_FEAR_LEVEL.FLEE:
@@ -328,7 +333,9 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void GoToHidingSpot()
     {
-        StopCoroutine(timeSpendCoroutine);
+        navMeshAgent.speed = runSpeed;
+        if(timeSpendCoroutine != null)
+            StopCoroutine(timeSpendCoroutine);
         SetDetectiveState(DETECTIVE_STATE.GOINGHIDING);
         GoToDestination(GetClosestHidingSpot());
     }
@@ -355,6 +362,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void ResumeActivity()
     {
+        navMeshAgent.speed = walkSpeed;
         SetDetectiveState(previousState);
         switch (currentState)
         {
@@ -365,41 +373,64 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_STATE.INVESTIGATING:
             {
+                GoToNextInvestigation();
                 timeSpendCoroutine = StartCoroutine(SpendTimeOnDestination());
                 break;
             }
         }
     }
 
+    private void StartPursuit()
+    {
+        navMeshAgent.speed = runSpeed;
+        pursuitWarmup = 5;
+        if(timeSpendCoroutine != null)
+            StopCoroutine(timeSpendCoroutine);
+        StartCoroutine(StartGun());
+        SetDetectiveState(DETECTIVE_STATE.PURSUING);
+    }
+
     private void Pursuit()
     {
         navMeshAgent.destination = ghostObject.GetPosition();
-        pursuitWarmup -= Time.deltaTime;
         
-        if(navMeshAgent.remainingDistance < 2f)
+        if(navMeshAgent.remainingDistance < 4f)
         {
-            if(pursuitWarmup <= 0)
-            {
-                if(Random.value > 0.5)
-                    ghostObject.Kill();
-            }
+            if(pursuitWarmupDone && Random.value > 0.8)
+                ghostObject.Kill();
         }
-        else if(navMeshAgent.remainingDistance >= 4f)
+        else if(navMeshAgent.remainingDistance >= 5f)
         {
-            ResumeActivity();
+            StopPursuit();
         }
+    }
+
+    private void StopPursuit()
+    {
+        attackFX.Stop();
+        pursuitWarmupDone = false;
+        ResumeActivity();
     }
 
     IEnumerator StartGun()
     {
         attackFX.Play();
+
+        float warmupTimeLeft = pursuitWarmup;
+        while(warmupTimeLeft > 0)
+        {
+            yield return new WaitForSeconds(1);
+            warmupTimeLeft--;
+        }
+        pursuitWarmupDone = true;
+
         float timeLeft = gunSeconds;
         while(timeLeft > 0)
         {
             yield return new WaitForSeconds(1);
             timeLeft--;
         }
-        attackFX.Stop();
+        StopPursuit();
     }
 
     public void GameOver()
