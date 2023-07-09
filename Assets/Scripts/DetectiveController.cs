@@ -36,6 +36,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     private AudioSource fearAudio;
     [SerializeField]
     private ParticleSystem attackFX;
+    [SerializeField]
+    private GameObject detectiveSprite;
 
     [Header("Debug")]
     [SerializeField]
@@ -69,7 +71,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
         attackFX.Stop();
-        fearBar.value = 0;
+        // fearBar.value = 0;
     }
 
     // Start is called before the first frame update
@@ -158,6 +160,11 @@ public class DetectiveController : MonoBehaviour, IScareable
                 DetectiveEndEvent?.Invoke(false);
                 break;
             }
+            case DETECTIVE_STATE.HIDING:
+            {
+                detectiveSprite.SetActive(false);
+                break;
+            }
         }
     }
 
@@ -193,6 +200,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_STATE.HIDING:
             {
+                detectiveSprite.SetActive(true);
                 currentDestination.ResetDestination();
                 GoToNextInvestigation();
                 break;
@@ -282,7 +290,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         // Debug.Log(detectiveFear);
         detectiveFear = Mathf.Clamp(detectiveFear + fearDelta, 0, maxFear);
-        fearBar.value = detectiveFear / maxFear;
+        // fearBar.value = detectiveFear / maxFear;
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
         fearAmountText.text = $"Fear Amount: {fearDelta}";
         DetectiveFearEvent?.Invoke(detectiveFear);
