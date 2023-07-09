@@ -14,6 +14,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private List<DetectiveDestination> investigationSpots;
     [SerializeField]
     private List<DetectiveDestination> hidingSpots;
+    public float maxFear = 50f;
     [SerializeField]
     private float detectiveFearCooldownRate = 3f;    // -1 fear every x seconds
     [SerializeField]
@@ -69,7 +70,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     void Start()
     {
         SetupAllDestinations();
-
+        navMeshAgent.speed = walkSpeed;
         visibiltySphere.OnTriggerEnterEvent += DetectiveSees;
         
         // DEBUG:
@@ -281,11 +282,11 @@ public class DetectiveController : MonoBehaviour, IScareable
 
         DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
 
-        if(detectiveFear <= 30)
+        if(detectiveFear <= maxFear / 3)
             currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
-        else if(detectiveFear <= 60)
+        else if(detectiveFear <= maxFear / 6)
             currentFearLevel = DETECTIVE_FEAR_LEVEL.HIDE;
-        else if(detectiveFear <= 90)
+        else if(detectiveFear <= maxFear / 9)
             currentFearLevel = DETECTIVE_FEAR_LEVEL.ATTACK;
         else
             currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
