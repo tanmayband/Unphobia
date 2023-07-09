@@ -38,8 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: Nav
+    uniqueID: 2132269741
+    locked: 0
+  - name: Background- Floor
     uniqueID: 4135945887
+    locked: 0
+  - name: Background-wall
+    uniqueID: 1873719227
     locked: 0
   - name: Human
     uniqueID: 2298764839
@@ -49,4 +55,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Items
+    uniqueID: 2957405733
     locked: 0
