@@ -15,6 +15,9 @@ public class GhostController : MonoBehaviour, IGhost
     [SerializeField]
     private TextMeshPro scareCooldownText; 
 
+    public delegate void GhostDeathDelegate();
+    public event GhostDeathDelegate GhostDeathEvent;
+
     private CustomInput customInputActions;
     private IScareable scareableEntity;
     private bool scareEnabled = true;
@@ -81,13 +84,18 @@ public class GhostController : MonoBehaviour, IGhost
 
     public void Kill()
     {
-        Debug.Log("ded GAME OVER");
+        GhostDeathEvent?.Invoke();
     }
 
     public Vector2 GetPosition()
     {
         return transform.position;
     } 
+
+    public void GameOver()
+    {
+        customInputActions.Ghost.Disable();
+    }
 }
 
 public interface IGhost

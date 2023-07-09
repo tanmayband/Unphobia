@@ -19,8 +19,6 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private float detectiveFearCooldownRate = 3f;    // -1 fear every x seconds
     [SerializeField]
-    private float detectiveResistanceCooldownRate = 1f; // -1 resistance every x seconds
-    [SerializeField]
     private float freezeForSeconds = 5f;
     [SerializeField]
     private float hideForSeconds = 5f;
@@ -34,6 +32,11 @@ public class DetectiveController : MonoBehaviour, IScareable
     private TextMeshPro stateText;
     [SerializeField]
     private TextMeshPro fearAmountText;
+
+    public delegate void DetectiveEndDelegate(bool succeeded);
+    public event DetectiveEndDelegate DetectiveEndEvent;
+    public delegate void DetectiveFearDelegate(float currentFear);
+    public event DetectiveFearDelegate DetectiveFearEvent;
 
     private DetectiveDestination currentDestination;
     private DETECTIVE_STATE currentState;
@@ -121,12 +124,12 @@ public class DetectiveController : MonoBehaviour, IScareable
             case DETECTIVE_STATE.EXITING:
             {
                 SetDetectiveState(DETECTIVE_STATE.GONE); 
-                Debug.Log("boo GAME OVER");
+                DetectiveEndEvent?.Invoke(true);
                 break;
             }
             case DETECTIVE_STATE.FLEEING:
             {
-                Debug.Log("LEVEL FINISHED!");
+                DetectiveEndEvent?.Invoke(false);
                 break;
             }
         }
@@ -235,6 +238,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         detectiveFear += fearDelta;
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
         fearAmountText.text = $"Fear Amount: {fearDelta}";
+        DetectiveFearEvent?.Invoke(detectiveFear);
 
         DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
 
@@ -350,7 +354,6 @@ public class DetectiveController : MonoBehaviour, IScareable
         {
             if(pursuitWarmup <= 0)
             {
-                Debug.Log("Start firing");
                 if(Random.value > 0.5)
                     ghostObject.Kill();
             }
@@ -360,6 +363,14 @@ public class DetectiveController : MonoBehaviour, IScareable
             ResumeActivity();
         }
     }
+
+    public void GameOver()
+    {
+        navMeshAgent.isStopped = true;
+        StopAllCoroutines();
+        enabled = false;
+    }
+
 }
 
 public interface IScareable
