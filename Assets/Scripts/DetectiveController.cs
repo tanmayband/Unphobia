@@ -71,7 +71,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
         attackFX.Stop();
-        fearBar.value = 0;
+        // fearBar.value = 0;
     }
 
     // Start is called before the first frame update
@@ -290,7 +290,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         // Debug.Log(detectiveFear);
         detectiveFear = Mathf.Clamp(detectiveFear + fearDelta, 0, maxFear);
-        fearBar.value = detectiveFear / maxFear;
+        // fearBar.value = detectiveFear / maxFear;
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
         fearAmountText.text = $"Fear Amount: {fearDelta}";
         DetectiveFearEvent?.Invoke(detectiveFear);

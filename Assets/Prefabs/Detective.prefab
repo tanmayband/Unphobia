@@ -1141,6 +1141,7 @@ MonoBehaviour:
   houseEntrance: {fileID: 0}
   investigationSpots: []
   hidingSpots: []
+  fearBar: {fileID: 0}
   maxFear: 50
   detectiveFearCooldownRate: 4
   freezeForSeconds: 5
@@ -1151,6 +1152,7 @@ MonoBehaviour:
   visibiltySphere: {fileID: 8173476261026367330}
   fearAudio: {fileID: 5546638786383037079}
   attackFX: {fileID: 3552635446377914263}
+  detectiveSprite: {fileID: 5244299960883955335}
   fearText: {fileID: 2555426126281803106}
   resistanceText: {fileID: 0}
   stateText: {fileID: 1705114676516349978}
