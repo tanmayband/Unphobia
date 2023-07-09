@@ -62,6 +62,7 @@
     <Compile Include="Assets/Scripts/DetectiveController.cs" />
     <Compile Include="Assets/Scripts/DetectiveVisibility.cs" />
     <Compile Include="Assets/Scripts/GhostController.cs" />
+    <Compile Include="Assets/Start fresh/ShadowCaster2DTileMap.cs" />
     <Compile Include="Assets/Input/CustomInput.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +71,7 @@
     <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />
+    <None Include="Assets/Horror SFX - 082918/Notes.txt" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader" />
     <None Include="Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt" />
