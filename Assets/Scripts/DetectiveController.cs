@@ -9,8 +9,6 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private NavMeshAgent navMeshAgent;
     [SerializeField]
-    private DetectiveVisibility detectiveVisibility;
-    [SerializeField]
     private DetectiveDestination houseEntrance;
     [SerializeField]
     private List<DetectiveDestination> investigationSpots;
@@ -22,6 +20,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     private float freezeForSeconds = 5f;
     [SerializeField]
     private float hideForSeconds = 5f;
+    [SerializeField]
+    private BetterCollider2D visibiltySphere;
 
     [Header("Debug")]
     [SerializeField]
@@ -61,8 +61,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         SetupAllDestinations();
 
-        detectiveVisibility.DestinationFound += NewDestinationFound;
-        detectiveVisibility.KillableFound += NewKillableFound;
+        visibiltySphere.OnTriggerEnterEvent += DetectiveSees;
         
         // DEBUG:
         fearText.text = $"Fear: {Mathf.RoundToInt(detectiveFear)}";
@@ -110,7 +109,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         previousState = currentState;
         currentState = newState;
-        Debug.Log($"Now state: {currentState}");
+        // Debug.Log($"Now state: {currentState}");
         stateText.text = $"State: {currentState}";
     }
 
@@ -208,7 +207,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         return hidingSpot;
     }
 
-    public void DetectiveSees(Collider2D other)
+    private void DetectiveSees(Collider2D other)
     {
         if(other.TryGetComponent(out DetectiveDestination destination))
         {

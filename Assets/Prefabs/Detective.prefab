@@ -353,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6887121022984095850}
-  - component: {fileID: 1883357052658874826}
+  - component: {fileID: 8173476261026367330}
   - component: {fileID: 3059966049053804920}
   - component: {fileID: 1011983729897391587}
   m_Layer: 0
@@ -378,7 +378,7 @@ Transform:
   m_Father: {fileID: 9220613362743306256}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1883357052658874826
+--- !u!114 &8173476261026367330
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6595731450336868072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e6fa033a3d664449ed121c34e291e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 662dcf44139a80047b5b755cff588a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!58 &3059966049053804920
@@ -674,6 +674,7 @@ GameObject:
   - component: {fileID: 7620451121538925315}
   - component: {fileID: 5727756795386883709}
   - component: {fileID: 7919628899134194696}
+  - component: {fileID: 611299051983514838}
   m_Layer: 0
   m_Name: Detective
   m_TagString: Untagged
@@ -711,13 +712,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 5727756795386883709}
-  detectiveVisibility: {fileID: 1883357052658874826}
   houseEntrance: {fileID: 0}
   investigationSpots: []
   hidingSpots: []
   detectiveFearCooldownRate: 4
   freezeForSeconds: 5
   hideForSeconds: 5
+  visibiltySphere: {fileID: 8173476261026367330}
   fearText: {fileID: 2555426126281803106}
   resistanceText: {fileID: 0}
   stateText: {fileID: 1705114676516349978}
@@ -831,6 +832,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!50 &611299051983514838
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162534627180686811}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &9169233275407582110
 GameObject:
   m_ObjectHideFlags: 0

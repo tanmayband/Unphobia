@@ -44,6 +44,15 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e2e58c1-080c-4e55-be57-7e11209d0317"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -105,11 +114,22 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bbdc941c-27ed-4c8f-8d07-26c5075ac64e"",
-                    ""path"": ""<Keyboard>/b"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Scare"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb60c8b2-d255-4801-baa6-35748afc61dc"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -170,6 +190,7 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
         m_Ghost = asset.FindActionMap("Ghost", throwIfNotFound: true);
         m_Ghost_Movement = m_Ghost.FindAction("Movement", throwIfNotFound: true);
         m_Ghost_Scare = m_Ghost.FindAction("Scare", throwIfNotFound: true);
+        m_Ghost_Interact = m_Ghost.FindAction("Interact", throwIfNotFound: true);
         // Admin
         m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
         m_Admin_RestartLevel = m_Admin.FindAction("RestartLevel", throwIfNotFound: true);
@@ -237,12 +258,14 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
     private List<IGhostActions> m_GhostActionsCallbackInterfaces = new List<IGhostActions>();
     private readonly InputAction m_Ghost_Movement;
     private readonly InputAction m_Ghost_Scare;
+    private readonly InputAction m_Ghost_Interact;
     public struct GhostActions
     {
         private @CustomInput m_Wrapper;
         public GhostActions(@CustomInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Ghost_Movement;
         public InputAction @Scare => m_Wrapper.m_Ghost_Scare;
+        public InputAction @Interact => m_Wrapper.m_Ghost_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Ghost; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
             @Scare.started += instance.OnScare;
             @Scare.performed += instance.OnScare;
             @Scare.canceled += instance.OnScare;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IGhostActions instance)
@@ -268,6 +294,9 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
             @Scare.started -= instance.OnScare;
             @Scare.performed -= instance.OnScare;
             @Scare.canceled -= instance.OnScare;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IGhostActions instance)
@@ -343,6 +372,7 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnScare(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IAdminActions
     {

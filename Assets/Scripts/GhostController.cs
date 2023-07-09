@@ -20,7 +20,7 @@ public class GhostController : MonoBehaviour, IGhost
 
     private CustomInput customInputActions;
     private IScareable scareableEntity;
-    private bool scareEnabled = true;
+    private bool booEnabled = true;
     private Interactable currentInteractable;
 
     private void Awake()
@@ -28,7 +28,8 @@ public class GhostController : MonoBehaviour, IGhost
         customInputActions = new CustomInput();
         customInputActions.Ghost.Enable();
 
-        customInputActions.Ghost.Scare.performed += CauseAScare;
+        customInputActions.Ghost.Scare.performed += Boo;
+        customInputActions.Ghost.Interact.performed += Interact;
     }
 
     // Start is called before the first frame update
@@ -51,7 +52,7 @@ public class GhostController : MonoBehaviour, IGhost
         }
         else if(other.TryGetComponent(out Interactable interactable))
         {
-            if(!interactable.OnCooldown())
+            if(interactable.IsAvailable())
             {
                 currentInteractable = interactable;
                 currentInteractable.Highlight();
@@ -63,8 +64,7 @@ public class GhostController : MonoBehaviour, IGhost
     {
         if(other.TryGetComponent(out IScareable scareable))
         {
-            if(scareableEntity == scareable)
-                scareableEntity = null;
+            scareableEntity = null;
         }
         else if(other.TryGetComponent(out Interactable interactable))
         {
@@ -74,18 +74,26 @@ public class GhostController : MonoBehaviour, IGhost
         }
     }
 
-    private void CauseAScare(InputAction.CallbackContext context)
+    private void Boo(InputAction.CallbackContext context)
     {
-        if(scareEnabled)
+        if(booEnabled)
         {
             scareableEntity?.Scare(10);
             StartCoroutine(ScareCooldown());
         }
     }
 
+    private void Interact(InputAction.CallbackContext context)
+    {
+        if(currentInteractable != null && currentInteractable.IsAvailable())
+        {
+            currentInteractable.Interact();
+        }
+    }
+
     IEnumerator ScareCooldown()
     {
-        scareEnabled = false;
+        booEnabled = false;
         float cooldown = scareCooldownTime;
         while(cooldown > 0)
         {
@@ -93,7 +101,7 @@ public class GhostController : MonoBehaviour, IGhost
             scareCooldownText.text = $"Scare Timeout: {cooldown}";
             yield return new WaitForSeconds(1);
         }
-        scareEnabled = true;
+        booEnabled = true;
     }
 
     public void Kill()
