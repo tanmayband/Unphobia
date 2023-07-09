@@ -42,6 +42,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Data\DetectiveData.cs" />
      <Compile Include="Assets\Scripts\DetectiveController.cs" />
+     <Compile Include="Assets\Scripts\Interactable.cs" />
      <Compile Include="Assets\Scripts\DetectiveVisibility.cs" />
      <Compile Include="Assets\Scripts\GhostController.cs" />
      <Compile Include="Assets\Input\CustomInput.cs" />
