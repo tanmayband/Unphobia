@@ -716,7 +716,6 @@ MonoBehaviour:
   investigationSpots: []
   hidingSpots: []
   detectiveFearCooldownRate: 4
-  detectiveResistanceCooldownRate: 0.5
   freezeForSeconds: 5
   hideForSeconds: 5
   fearText: {fileID: 2555426126281803106}

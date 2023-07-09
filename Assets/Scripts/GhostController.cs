@@ -21,7 +21,7 @@ public class GhostController : MonoBehaviour, IGhost
     private CustomInput customInputActions;
     private IScareable scareableEntity;
     private bool scareEnabled = true;
-    
+    private Interactable currentInteractable;
 
     private void Awake()
     {
@@ -49,6 +49,14 @@ public class GhostController : MonoBehaviour, IGhost
         {
             scareableEntity = scareable;
         }
+        else if(other.TryGetComponent(out Interactable interactable))
+        {
+            if(!interactable.OnCooldown())
+            {
+                currentInteractable = interactable;
+                currentInteractable.Highlight();
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -57,6 +65,12 @@ public class GhostController : MonoBehaviour, IGhost
         {
             if(scareableEntity == scareable)
                 scareableEntity = null;
+        }
+        else if(other.TryGetComponent(out Interactable interactable))
+        {
+            if(currentInteractable != null)
+                currentInteractable.Unhighlight();
+            currentInteractable = null;
         }
     }
 

@@ -208,6 +208,18 @@ public class DetectiveController : MonoBehaviour, IScareable
         return hidingSpot;
     }
 
+    public void DetectiveSees(Collider2D other)
+    {
+        if(other.TryGetComponent(out DetectiveDestination destination))
+        {
+            NewDestinationFound(destination);
+        }
+        else if(other.TryGetComponent(out IGhost killable))
+        {
+            NewKillableFound(killable);
+        }
+    }
+
     private void NewDestinationFound(DetectiveDestination destination)
     {
         if(destination.GetDestinationState() == DETECTIVE_STATE.HIDING && !hidingSpots.Contains(destination))

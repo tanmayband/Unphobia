@@ -4,15 +4,55 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float cooldownTime = 10f;
+    [SerializeField]
+    private ParticleSystem highlightFX;
+    private bool onCooldown = false;
+
+    private void Start()
     {
-        
+        Unhighlight();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Interact()
     {
-        
+        if(!onCooldown)
+        {
+            // play interaction
+
+            // start cooldown
+            StartCoroutine(InteractCooldown());
+        }
+    }
+
+    public void Highlight()
+    {
+        if(!onCooldown)
+        {
+            highlightFX.gameObject.SetActive(true);
+        }
+    }
+
+    public void Unhighlight()
+    {
+        highlightFX.gameObject.SetActive(false);
+    }
+
+    public bool OnCooldown()
+    {
+        return onCooldown;
+    }
+
+    IEnumerator InteractCooldown()
+    {
+        onCooldown = true;
+        float timeLeft = cooldownTime;
+        while(timeLeft > 0)
+        {
+            yield return new WaitForSeconds(1);
+            timeLeft -= 1;
+        }
+        onCooldown = false;
     }
 }
