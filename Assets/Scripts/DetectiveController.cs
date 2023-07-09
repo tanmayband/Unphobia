@@ -50,7 +50,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private DETECTIVE_STATE currentState = DETECTIVE_STATE.DISABLED;
     private DETECTIVE_STATE previousState;
     private Coroutine timeSpendCoroutine;
-    private float detectiveFear = 55;    // 0-100 (slow falling)
+    private float detectiveFear = 0;    // 0-100 (slow falling)
     private Coroutine fearCooldownCoroutine;
     private Coroutine frozenCoroutine;
     private DETECTIVE_FEAR_LEVEL currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
@@ -137,7 +137,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             case DETECTIVE_STATE.EXPLORING:
             case DETECTIVE_STATE.GOINGHIDING:
             {
-                timeSpendCoroutine = StartCoroutine(SpendTimeOnDestination());
+                StartSpendingTimeOnDestination();
                 break;
             }
             case DETECTIVE_STATE.EXITING:
@@ -154,9 +154,15 @@ public class DetectiveController : MonoBehaviour, IScareable
         }
     }
 
-    IEnumerator SpendTimeOnDestination()
+    private void StartSpendingTimeOnDestination()
     {
         SetDetectiveState(currentDestination.GetDestinationState());
+        timeSpendCoroutine = StartCoroutine(SpendTimeOnDestination());
+    }
+
+    IEnumerator SpendTimeOnDestination()
+    {
+        Debug.Log("Start timer");
         while(currentDestination.secondsLeft > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -374,7 +380,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             case DETECTIVE_STATE.INVESTIGATING:
             {
                 GoToNextInvestigation();
-                timeSpendCoroutine = StartCoroutine(SpendTimeOnDestination());
+                // StartSpendingTimeOnDestination();
                 break;
             }
         }
