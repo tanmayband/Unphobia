@@ -36,6 +36,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     private AudioSource fearAudio;
     [SerializeField]
     private ParticleSystem attackFX;
+    [SerializeField]
+    private GameObject detectiveSprite;
 
     [Header("Debug")]
     [SerializeField]
@@ -158,6 +160,11 @@ public class DetectiveController : MonoBehaviour, IScareable
                 DetectiveEndEvent?.Invoke(false);
                 break;
             }
+            case DETECTIVE_STATE.HIDING:
+            {
+                detectiveSprite.SetActive(false);
+                break;
+            }
         }
     }
 
@@ -193,6 +200,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_STATE.HIDING:
             {
+                detectiveSprite.SetActive(true);
                 currentDestination.ResetDestination();
                 GoToNextInvestigation();
                 break;
