@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+using UnityEngine.UI;
 
 public class DetectiveController : MonoBehaviour, IScareable
 {
@@ -14,6 +15,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     private List<DetectiveDestination> investigationSpots;
     [SerializeField]
     private List<DetectiveDestination> hidingSpots;
+    [SerializeField]
+    private Slider fearBar;
     public float maxFear = 50f;
     [SerializeField]
     private float detectiveFearCooldownRate = 3f;    // -1 fear every x seconds
@@ -66,6 +69,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
         attackFX.Stop();
+        fearBar.value = 0;
     }
 
     // Start is called before the first frame update
@@ -165,7 +169,6 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     IEnumerator SpendTimeOnDestination()
     {
-        Debug.Log("Start timer");
         while(currentDestination.secondsLeft > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -278,7 +281,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     private void SetFear(float fearDelta)
     {
         // Debug.Log(detectiveFear);
-        detectiveFear += fearDelta;
+        detectiveFear = Mathf.Clamp(detectiveFear + fearDelta, 0, maxFear);
+        fearBar.value = detectiveFear / maxFear;
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
         fearAmountText.text = $"Fear Amount: {fearDelta}";
         DetectiveFearEvent?.Invoke(detectiveFear);
