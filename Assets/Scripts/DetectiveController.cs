@@ -30,6 +30,8 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private BetterCollider2D visibiltySphere;
     [SerializeField]
+    private AudioSource fearAudio;
+    [SerializeField]
     private ParticleSystem attackFX;
 
     [Header("Debug")]
@@ -255,6 +257,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     // SCARE RESPONSES
     public void Scare(float fearAmount)
     {
+        fearAudio.Play();
         switch (currentState)
         {
             case DETECTIVE_STATE.EXPLORING:
