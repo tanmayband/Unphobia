@@ -13,7 +13,9 @@ public class GhostController : MonoBehaviour, IGhost
     [SerializeField]
     private float scareCooldownTime = 20f;
     [SerializeField]
-    private TextMeshPro scareCooldownText; 
+    private TextMeshPro scareCooldownText;
+    [SerializeField]
+    private ParticleSystem booFX;
 
     public delegate void GhostDeathDelegate();
     public event GhostDeathDelegate GhostDeathEvent;
@@ -35,6 +37,7 @@ public class GhostController : MonoBehaviour, IGhost
     // Start is called before the first frame update
     void Start()
     {
+        booFX.Stop();
         scareCooldownText.text = $"Scare Timeout: {scareCooldownTime}";
     }
 
@@ -79,6 +82,7 @@ public class GhostController : MonoBehaviour, IGhost
         if(booEnabled)
         {
             scareableEntity?.Scare(10);
+            booFX.Play();
             StartCoroutine(ScareCooldown());
         }
     }

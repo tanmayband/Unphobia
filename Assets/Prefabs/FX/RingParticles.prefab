@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5763801863885048974}
   - component: {fileID: 5763801863885048969}
   m_Layer: 0
-  m_Name: InteractParticles
+  m_Name: RingParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

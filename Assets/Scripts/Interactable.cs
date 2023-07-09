@@ -33,7 +33,7 @@ public class Interactable : MonoBehaviour
     private void SetState(INTERACTABLE_STATE newState)
     {
         currentState = newState;
-        Debug.Log(currentState);
+        // Debug.Log(currentState);
     }
 
     public void Interact()

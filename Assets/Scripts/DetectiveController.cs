@@ -21,7 +21,11 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private float hideForSeconds = 5f;
     [SerializeField]
+    private float gunSeconds = 5f;
+    [SerializeField]
     private BetterCollider2D visibiltySphere;
+    [SerializeField]
+    private ParticleSystem attackFX;
 
     [Header("Debug")]
     [SerializeField]
@@ -42,7 +46,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private DETECTIVE_STATE currentState;
     private DETECTIVE_STATE previousState;
     private Coroutine timeSpendCoroutine;
-    private float detectiveFear = 0;    // 0-100 (slow climbing)
+    private float detectiveFear = 0;    // 0-100 (slow falling)
     private Coroutine fearCooldownCoroutine;
     private Coroutine frozenCoroutine;
     private DETECTIVE_FEAR_LEVEL currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
@@ -53,6 +57,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
+        attackFX.Stop();
         enabled = false;
     }
 
@@ -297,6 +302,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             {
                 pursuitWarmup = 5;
                 StopCoroutine(timeSpendCoroutine);
+                StartCoroutine(StartGun());
                 SetDetectiveState(DETECTIVE_STATE.PURSUING);
                 break;
             }
@@ -382,6 +388,18 @@ public class DetectiveController : MonoBehaviour, IScareable
         {
             ResumeActivity();
         }
+    }
+
+    IEnumerator StartGun()
+    {
+        attackFX.Play();
+        float timeLeft = gunSeconds;
+        while(timeLeft > 0)
+        {
+            yield return new WaitForSeconds(1);
+            timeLeft--;
+        }
+        attackFX.Stop();
     }
 
     public void GameOver()
