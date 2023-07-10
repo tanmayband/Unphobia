@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+using UnityEngine.UI;
 
 public class DetectiveController : MonoBehaviour, IScareable
 {
@@ -14,6 +15,11 @@ public class DetectiveController : MonoBehaviour, IScareable
     private List<DetectiveDestination> investigationSpots;
     [SerializeField]
     private List<DetectiveDestination> hidingSpots;
+    [SerializeField]
+    private Slider fearBar;
+    [SerializeField]
+    private float detectiveFear = 0;    // 0-100 (slow falling)
+    public float maxFear = 50f;
     [SerializeField]
     private float detectiveFearCooldownRate = 3f;    // -1 fear every x seconds
     [SerializeField]
@@ -29,7 +35,11 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private BetterCollider2D visibiltySphere;
     [SerializeField]
+    private AudioSource fearAudio;
+    [SerializeField]
     private ParticleSystem attackFX;
+    [SerializeField]
+    private GameObject detectiveSprite;
 
     [Header("Debug")]
     [SerializeField]
@@ -50,7 +60,6 @@ public class DetectiveController : MonoBehaviour, IScareable
     private DETECTIVE_STATE currentState = DETECTIVE_STATE.DISABLED;
     private DETECTIVE_STATE previousState;
     private Coroutine timeSpendCoroutine;
-    private float detectiveFear = 0;    // 0-100 (slow falling)
     private Coroutine fearCooldownCoroutine;
     private Coroutine frozenCoroutine;
     private DETECTIVE_FEAR_LEVEL currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
@@ -63,13 +72,14 @@ public class DetectiveController : MonoBehaviour, IScareable
         navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
         attackFX.Stop();
+        SetFear(detectiveFear);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         SetupAllDestinations();
-
+        navMeshAgent.speed = walkSpeed;
         visibiltySphere.OnTriggerEnterEvent += DetectiveSees;
         
         // DEBUG:
@@ -151,6 +161,11 @@ public class DetectiveController : MonoBehaviour, IScareable
                 DetectiveEndEvent?.Invoke(false);
                 break;
             }
+            case DETECTIVE_STATE.HIDING:
+            {
+                detectiveSprite.SetActive(false);
+                break;
+            }
         }
     }
 
@@ -162,7 +177,6 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     IEnumerator SpendTimeOnDestination()
     {
-        Debug.Log("Start timer");
         while(currentDestination.secondsLeft > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -187,6 +201,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_STATE.HIDING:
             {
+                detectiveSprite.SetActive(true);
                 currentDestination.ResetDestination();
                 GoToNextInvestigation();
                 break;
@@ -254,6 +269,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     // SCARE RESPONSES
     public void Scare(float fearAmount)
     {
+        fearAudio.Play();
         switch (currentState)
         {
             case DETECTIVE_STATE.EXPLORING:
@@ -267,35 +283,40 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void UpdateFear(float fearAmount)
     {
-        float fearDelta = fearAmount;
-        SetFear(fearDelta);
+        fearAmountText.text = $"Fear Amount: {fearAmount}";
+        float newFear = Mathf.Clamp(detectiveFear + fearAmount, 0, maxFear);
+        SetFear(newFear);
     }
 
-    private void SetFear(float fearDelta)
+    private void SetFear(float newFear)
     {
+        detectiveFear = newFear;
+        fearBar.value = detectiveFear / maxFear;
         // Debug.Log(detectiveFear);
-        detectiveFear += fearDelta;
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
-        fearAmountText.text = $"Fear Amount: {fearDelta}";
-        DetectiveFearEvent?.Invoke(detectiveFear);
 
-        DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
-
-        if(detectiveFear <= 30)
-            currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
-        else if(detectiveFear <= 60)
-            currentFearLevel = DETECTIVE_FEAR_LEVEL.HIDE;
-        else if(detectiveFear <= 90)
-            currentFearLevel = DETECTIVE_FEAR_LEVEL.ATTACK;
-        else
-            currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
-
-        if(fearCooldownCoroutine == null)
+        if(detectiveFear > 0)
         {
-            fearCooldownCoroutine = StartCoroutine(FearCooldown());
-        }
+            DetectiveFearEvent?.Invoke(detectiveFear);
 
-        ProcessFear();
+            DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
+
+            if(detectiveFear <= maxFear / 3.34)
+                currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
+            else if(detectiveFear <= maxFear / 1.67)
+                currentFearLevel = DETECTIVE_FEAR_LEVEL.HIDE;
+            else if(detectiveFear <= maxFear / 1.12)
+                currentFearLevel = DETECTIVE_FEAR_LEVEL.ATTACK;
+            else
+                currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
+
+            if(fearCooldownCoroutine == null)
+            {
+                fearCooldownCoroutine = StartCoroutine(FearCooldown());
+            }
+
+            ProcessFear();
+        }
     }
 
     private void ProcessFear()
