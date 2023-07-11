@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 4311395619010470338}
   - component: {fileID: 6341509313769002463}
   m_Layer: 0
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 1428120866234181100}
   - component: {fileID: 319126641836352939}
   m_Layer: 0
-  m_Name: light
+  m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1142,6 +1142,7 @@ MonoBehaviour:
   investigationSpots: []
   hidingSpots: []
   fearBar: {fileID: 0}
+  detectiveFear: 0
   maxFear: 50
   detectiveFearCooldownRate: 4
   freezeForSeconds: 5

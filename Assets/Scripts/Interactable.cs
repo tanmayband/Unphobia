@@ -109,19 +109,23 @@ public class Interactable : MonoBehaviour
 
     public virtual void StartEffect()
     {
-        Debug.Log("StartEffect");
         SetState(INTERACTABLE_STATE.ONGOING);
         interactAnim.SetTrigger("TriggerInteractable");
     }
 
     public virtual void StopEffect()
     {
-        Debug.Log("StopEffect");
         StartCoroutine(InteractCooldown());
     }
 
-    public void PlayAudio()
+    public void PlayAudio(AudioClip audioClip)
     {
+        if(audioClip != null)
+            audioSource.PlayOneShot(audioClip);
+    }
+
+    public void StartAudio()
+    {   
         audioSource.Play();
     }
 
