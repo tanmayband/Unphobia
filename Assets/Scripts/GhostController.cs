@@ -11,7 +11,11 @@ public class GhostController : MonoBehaviour, IGhost
     [SerializeField]
     private float ghostSpeed = 5f;
     [SerializeField]
-    private float scareCooldownTime = 20f;
+    private float booFearAmount = 10;
+    [SerializeField]
+    private int maxBoos = 2;
+    // [SerializeField]
+    // private float scareCooldownTime = 20f;
     [SerializeField]
     private TextMeshPro scareCooldownText;
     [SerializeField]
@@ -22,7 +26,8 @@ public class GhostController : MonoBehaviour, IGhost
 
     private CustomInput customInputActions;
     private IScareable scareableEntity;
-    private bool booEnabled = true;
+    // private bool booEnabled = true;
+    private int currentBoos = 0;
     private Interactable currentInteractable;
 
     private void Awake()
@@ -38,7 +43,7 @@ public class GhostController : MonoBehaviour, IGhost
     void Start()
     {
         booFX.Stop();
-        scareCooldownText.text = $"Scare Timeout: {scareCooldownTime}";
+        scareCooldownText.text = $"Boos left: {maxBoos - currentBoos}";
     }
 
     void Update()
@@ -79,11 +84,13 @@ public class GhostController : MonoBehaviour, IGhost
 
     private void Boo(InputAction.CallbackContext context)
     {
-        if(booEnabled)
+        if(currentBoos < maxBoos)
         {
-            scareableEntity?.Scare(10);
+            scareableEntity?.Scare(booFearAmount);
             booFX.Play();
-            StartCoroutine(ScareCooldown());
+            currentBoos++;
+            scareCooldownText.text = $"Boos left: {maxBoos - currentBoos}";
+            // StartCoroutine(ScareCooldown());
         }
     }
 
@@ -95,18 +102,18 @@ public class GhostController : MonoBehaviour, IGhost
         }
     }
 
-    IEnumerator ScareCooldown()
-    {
-        booEnabled = false;
-        float cooldown = scareCooldownTime;
-        while(cooldown > 0)
-        {
-            cooldown -= 1;
-            scareCooldownText.text = $"Scare Timeout: {cooldown}";
-            yield return new WaitForSeconds(1);
-        }
-        booEnabled = true;
-    }
+    // IEnumerator ScareCooldown()
+    // {
+    //     booEnabled = false;
+    //     float cooldown = scareCooldownTime;
+    //     while(cooldown > 0)
+    //     {
+    //         cooldown -= 1;
+    //         scareCooldownText.text = $"Scare Timeout: {cooldown}";
+    //         yield return new WaitForSeconds(1);
+    //     }
+    //     booEnabled = true;
+    // }
 
     public void Kill()
     {

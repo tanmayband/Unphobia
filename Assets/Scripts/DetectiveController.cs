@@ -89,7 +89,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     // Update is called once per frame
     void Update()
     {
-        if(currentState != DETECTIVE_STATE.DISABLED)
+        if(currentState != DETECTIVE_STATE.DISABLED && currentState != DETECTIVE_STATE.GONE)
         {
             if(currentState != DETECTIVE_STATE.PURSUING)
             {
@@ -128,7 +128,8 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void SetDetectiveState(DETECTIVE_STATE newState)
     {
-        previousState = currentState;
+        if(currentState != DETECTIVE_STATE.GOINGHIDING)
+            previousState = currentState;
         currentState = newState;
         // Debug.Log($"Now state: {currentState}");
         stateText.text = $"State: {currentState}";
@@ -153,12 +154,14 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_STATE.FLEEING:
             {
+                SetDetectiveState(DETECTIVE_STATE.GONE); 
                 DetectiveEndEvent?.Invoke(false);
                 break;
             }
             case DETECTIVE_STATE.HIDING:
             {
                 detectiveSprite.SetActive(false);
+                StartFearCooldown();
                 break;
             }
         }
@@ -313,10 +316,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             else
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
 
-            if(fearCooldownCoroutine == null)
-            {
-                fearCooldownCoroutine = StartCoroutine(FearCooldown());
-            }
+            StartFearCooldown();
 
             ProcessFear();
         }
@@ -328,6 +328,7 @@ public class DetectiveController : MonoBehaviour, IScareable
         {
             case DETECTIVE_FEAR_LEVEL.FREEZE:
             {
+                StopFearCooldown();
                 frozenCoroutine = StartCoroutine(FreezeCountdown());
                 break;
             }
@@ -343,6 +344,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_FEAR_LEVEL.FLEE:
             {
+                navMeshAgent.speed = runSpeed;
                 SetDetectiveState(DETECTIVE_STATE.FLEEING);
                 GoToDestination(houseEntrance);
                 break;
@@ -361,8 +363,26 @@ public class DetectiveController : MonoBehaviour, IScareable
         fearCooldownCoroutine = null;
     }
 
+    private void StartFearCooldown()
+    {
+        if(fearCooldownCoroutine == null)
+        {
+            fearCooldownCoroutine = StartCoroutine(FearCooldown());
+        }
+    }
+
+    private void StopFearCooldown()
+    {
+        if(fearCooldownCoroutine != null)
+        {
+            StopCoroutine(fearCooldownCoroutine);
+            fearCooldownCoroutine = null;
+        }
+    }
+
     private void GoToHidingSpot()
     {
+        StopFearCooldown();
         navMeshAgent.speed = runSpeed;
         DestinationInterrupt();
         SetDetectiveState(DETECTIVE_STATE.GOINGHIDING);
@@ -392,6 +412,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         navMeshAgent.speed = walkSpeed;
         SetDetectiveState(previousState);
+        StartFearCooldown();
         switch (currentState)
         {
             case DETECTIVE_STATE.EXPLORING:
@@ -420,13 +441,14 @@ public class DetectiveController : MonoBehaviour, IScareable
     private void Pursuit()
     {
         navMeshAgent.destination = ghostObject.GetPosition();
-        
-        if(navMeshAgent.remainingDistance < 4f)
+        float distanceFromGhost = Vector3.Distance(transform.position, ghostObject.GetPosition());
+
+        if(distanceFromGhost < 4f)
         {
             if(pursuitWarmupDone && Random.value > 0.8)
                 ghostObject.Kill();
         }
-        else if(navMeshAgent.remainingDistance >= 5f)
+        else if(distanceFromGhost >= 5f)
         {
             StopPursuit();
         }

@@ -135,7 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostBody: {fileID: 1563837541976927090}
   ghostSpeed: 5
-  scareCooldownTime: 20
+  booFearAmount: 10
+  maxBoos: 2
   scareCooldownText: {fileID: 4626440370544302537}
   booFX: {fileID: 6251252515932468162}
 --- !u!212 &6437486930933701359
