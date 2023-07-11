@@ -11,13 +11,13 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private bool onlyOnce = true;
     [SerializeField]
+    private Animator attentionAnim;
+    [SerializeField]
     private ParticleSystem highlightFX;
     [SerializeField]
+    private Animator interactAnim;
+    [SerializeField]
     private AudioSource audioSource;
-    [SerializeField]
-    private Animation animationClip;
-    [SerializeField]
-    private Animator animator;
     [SerializeField]
     private BetterCollider2D influenceSphere;
     private INTERACTABLE_STATE currentState = INTERACTABLE_STATE.IDLE;
@@ -25,6 +25,7 @@ public class Interactable : MonoBehaviour
 
     private void Start()
     {
+        SetState(INTERACTABLE_STATE.IDLE);
         Unhighlight();
         influenceSphere.OnTriggerEnterEvent += OnInflunceEnter;
         influenceSphere.OnTriggerExitEvent += OnInflunceExit;
@@ -34,6 +35,7 @@ public class Interactable : MonoBehaviour
     {
         currentState = newState;
         // Debug.Log(currentState);
+        ToggleAttentionFX(currentState == INTERACTABLE_STATE.IDLE);
     }
 
     public void Interact()
@@ -62,6 +64,11 @@ public class Interactable : MonoBehaviour
         highlightFX.gameObject.SetActive(false);
     }
 
+    private void ToggleAttentionFX(bool show)
+    {
+        attentionAnim.gameObject.SetActive(show);
+    }
+
     public bool IsAvailable()
     {
         return currentState == INTERACTABLE_STATE.IDLE;
@@ -69,9 +76,6 @@ public class Interactable : MonoBehaviour
 
     IEnumerator InteractCooldown()
     {
-        SetState(INTERACTABLE_STATE.ONGOING);
-        yield return new WaitWhile(() => animationClip.isPlaying);
-
         SetState(INTERACTABLE_STATE.COOLDOWN);
         Unhighlight();
         float timeLeft = cooldownTime;
@@ -105,15 +109,15 @@ public class Interactable : MonoBehaviour
 
     public virtual void StartEffect()
     {
-        // animator.Play()
-        animationClip.Rewind();
-        animationClip.Play();
-        StartCoroutine(InteractCooldown());
+        Debug.Log("StartEffect");
+        SetState(INTERACTABLE_STATE.ONGOING);
+        interactAnim.SetTrigger("TriggerInteractable");
     }
 
     public virtual void StopEffect()
     {
-
+        Debug.Log("StopEffect");
+        StartCoroutine(InteractCooldown());
     }
 
     public void PlayAudio()
