@@ -2,8 +2,30 @@ https://opengameart.org/content/star
 
 
 
+----------------------------------
 
+- Dynamic max fear
+- Testing all levels of max fear
+- Hiding detective while hiding
+- Testing level (Tweaking numbers)
+- Visual indicator of interactables and (DONE) destinations
+- Level Progression
 
+UI:
+- Visual timer cooldown
+- Menu (Start, Pause, Level select, level finish, game over)
+
+Animation:
+- Scared animation detective (shaking, running, attacking)
+- Sprites (interactables) (DONE)
+
+Sound:
+- Sound (Sound + BG music)
+
+Bonus:
+- Comic 
+- Timed/ Traps interactions
+----------------------------------
 
 
 Tasks:

@@ -36,6 +36,21 @@ public class DetectiveDestination : MonoBehaviour
         timeLeftText.text = secondsLeft.ToString();
     }
 
+    public virtual void DestinationReached()
+    {
+
+    }
+
+    public virtual void DestinationInterrupted()
+    {
+        
+    }
+    
+    public virtual void DestinationDone()
+    {
+        
+    }
+
     public void ResetDestination()
     {
         SetupDestination();

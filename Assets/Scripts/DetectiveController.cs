@@ -12,7 +12,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     [SerializeField]
     private DetectiveDestination houseEntrance;
     [SerializeField]
-    private List<DetectiveDestination> investigationSpots;
+    private List<InvestigationDestination> investigationSpots;
     [SerializeField]
     private List<DetectiveDestination> hidingSpots;
     [SerializeField]
@@ -142,6 +142,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void DestinationReached()
     {
+        currentDestination.DestinationReached();
         switch (currentState)
         {
             case DETECTIVE_STATE.EXPLORING:
@@ -186,8 +187,16 @@ public class DetectiveController : MonoBehaviour, IScareable
         DestinationDone();
     }
 
+    private void DestinationInterrupt()
+    {
+        currentDestination.DestinationInterrupted();
+        if(timeSpendCoroutine != null)
+            StopCoroutine(timeSpendCoroutine);
+    }
+
     private void DestinationDone()
     {
+        currentDestination.DestinationDone();
         if(timeSpendCoroutine != null)
             StopCoroutine(timeSpendCoroutine);
         
@@ -361,16 +370,14 @@ public class DetectiveController : MonoBehaviour, IScareable
     private void GoToHidingSpot()
     {
         navMeshAgent.speed = runSpeed;
-        if(timeSpendCoroutine != null)
-            StopCoroutine(timeSpendCoroutine);
+        DestinationInterrupt();
         SetDetectiveState(DETECTIVE_STATE.GOINGHIDING);
         GoToDestination(GetClosestHidingSpot());
     }
 
     IEnumerator FreezeCountdown()
     {
-        if(timeSpendCoroutine != null)
-            StopCoroutine(timeSpendCoroutine);
+        DestinationInterrupt();
         SetDetectiveState(DETECTIVE_STATE.FROZEN);
         navMeshAgent.isStopped = true;
 
@@ -411,8 +418,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         navMeshAgent.speed = runSpeed;
         pursuitWarmup = 5;
-        if(timeSpendCoroutine != null)
-            StopCoroutine(timeSpendCoroutine);
+        DestinationInterrupt();
         StartCoroutine(StartGun());
         SetDetectiveState(DETECTIVE_STATE.PURSUING);
     }
