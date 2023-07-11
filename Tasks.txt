@@ -6,18 +6,18 @@ https://opengameart.org/content/star
 
 - Dynamic max fear
 - Testing all levels of max fear
-- Hiding detective while hiding
+- Hiding detective while hiding (DONE)
 - Testing level (Tweaking numbers)
-- Visual indicator of interactables and (DONE) destinations
+- Visual indicator of interactables and destinations (DONE)
 - Level Progression
 
 UI:
-- Visual timer cooldown
+- Visual timer cooldown (ghost and interactable)
 - Menu (Start, Pause, Level select, level finish, game over)
 
 Animation:
 - Scared animation detective (shaking, running, attacking)
-- Sprites (interactables) (DONE)
+- Sprites (interactables) (DONE Tanmay)
 
 Sound:
 - Sound (Sound + BG music)

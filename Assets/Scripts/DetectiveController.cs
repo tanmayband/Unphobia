@@ -21,7 +21,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private float detectiveFear = 0;    // 0-100 (slow falling)
     public float maxFear = 50f;
     [SerializeField]
-    private float detectiveFearCooldownRate = 3f;    // -1 fear every x seconds
+    private float detectiveFearCooldownRate = 0.5f;    // -x fear every second
     [SerializeField]
     private float freezeForSeconds = 5f;
     [SerializeField]
@@ -151,12 +151,6 @@ public class DetectiveController : MonoBehaviour, IScareable
                 StartSpendingTimeOnDestination();
                 break;
             }
-            case DETECTIVE_STATE.EXITING:
-            {
-                SetDetectiveState(DETECTIVE_STATE.GONE); 
-                DetectiveEndEvent?.Invoke(true);
-                break;
-            }
             case DETECTIVE_STATE.FLEEING:
             {
                 DetectiveEndEvent?.Invoke(false);
@@ -212,7 +206,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             {
                 detectiveSprite.SetActive(true);
                 currentDestination.ResetDestination();
-                GoToNextInvestigation();
+                ResumeActivity();
                 break;
             }
         }
@@ -228,8 +222,8 @@ public class DetectiveController : MonoBehaviour, IScareable
         else
         {
             // everything investigated
-            SetDetectiveState(DETECTIVE_STATE.EXITING);
-            GoToDestination(houseEntrance);
+            SetDetectiveState(DETECTIVE_STATE.GONE); 
+            DetectiveEndEvent?.Invoke(true);
         }
     }
 
@@ -360,9 +354,9 @@ public class DetectiveController : MonoBehaviour, IScareable
     {
         while(detectiveFear > 0)
         {
-            detectiveFear -= 1;
+            detectiveFear -= detectiveFearCooldownRate;
             fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
-            yield return new WaitForSeconds(detectiveFearCooldownRate);
+            yield return new WaitForSeconds(1);
         }
         fearCooldownCoroutine = null;
     }

@@ -192,17 +192,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
---- !u!114 &39194354 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4290796559291758877, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
-  m_PrefabInstance: {fileID: 39194353}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58f151ac46220764293f9ad914264b97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &39194355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4892295182552311320, guid: 773055d2656dbba4ba0d2ca6f00cbdf3, type: 3}
@@ -832,6 +821,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1805145776, guid: 249e8285f64f842d7a0b6526b1cb874f, type: 3}
+    - target: {fileID: 7966682026506344738, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8162534627180686811, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: m_Name
       value: Detective
@@ -850,12 +843,16 @@ PrefabInstance:
       objectReference: {fileID: 522598785}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.size
-      value: 3
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      propertyPath: detectiveFearCooldownRate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[0]
       value: 
-      objectReference: {fileID: 39194354}
+      objectReference: {fileID: 582598346}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: hidingSpots.Array.data[1]
       value: 
@@ -939,7 +936,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 312411018730506281, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 7107469788451639711, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3396471164238086420, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
 --- !u!1 &459520908
 GameObject:
@@ -2617,7 +2623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3152001139467144910, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
       propertyPath: onlyOnce
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3152001139467144910, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
       propertyPath: cooldownTime
@@ -2645,7 +2651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7385662054305169475, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.63
+      value: -2.58
       objectReference: {fileID: 0}
     - target: {fileID: 7385662054305169475, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6361,7 +6367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3152001139467144910, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
       propertyPath: onlyOnce
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152001139467144910, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
+      propertyPath: fearAmount
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3152001139467144910, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
       propertyPath: cooldownTime
