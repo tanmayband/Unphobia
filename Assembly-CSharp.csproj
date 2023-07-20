@@ -40,10 +40,11 @@
     <Analyzer Include="E:\Softwares\Unity\2022.3.3f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Interactables\InteractableToggler.cs" />
      <Compile Include="Assets\Scripts\Data\DetectiveData.cs" />
      <Compile Include="Assets\Scripts\DetectiveController.cs" />
      <Compile Include="Assets\Scripts\Utils\BetterCollider2D.cs" />
-     <Compile Include="Assets\Scripts\Interactable.cs" />
+     <Compile Include="Assets\Scripts\Interactables\Interactable.cs" />
      <Compile Include="Assets\Scripts\DetectiveVisibility.cs" />
      <Compile Include="Assets\Images\Start fresh\ShadowCaster2DTileMap.cs" />
      <Compile Include="Assets\Scripts\GhostController.cs" />
