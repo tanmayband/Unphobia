@@ -48,6 +48,7 @@
      <Compile Include="Assets\Images\Start fresh\ShadowCaster2DTileMap.cs" />
      <Compile Include="Assets\Scripts\GhostController.cs" />
      <Compile Include="Assets\Scripts\Destinations\InvestigationDestination.cs" />
+     <Compile Include="Assets\Scripts\MainMenuController.cs" />
      <Compile Include="Assets\Input\CustomInput.cs" />
      <Compile Include="Assets\Scripts\Utils\Constants.cs" />
      <Compile Include="Assets\Scripts\LevelController.cs" />
