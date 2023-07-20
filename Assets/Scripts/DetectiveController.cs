@@ -341,6 +341,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_FEAR_LEVEL.FLEE:
             {
+                StopFearCooldown();
                 navMeshAgent.speed = runSpeed;
                 SetDetectiveState(DETECTIVE_STATE.FLEEING);
                 GoToDestination(houseEntrance);

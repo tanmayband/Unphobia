@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using ConstantUtils;
 public class LevelController : MonoBehaviour
 {
     [SerializeField]
@@ -14,9 +14,20 @@ public class LevelController : MonoBehaviour
     [SerializeField]
     private float detectiveEntersHouseAfter = 10;
     [SerializeField]
+    private string nextLevelName;
+
+    [Header("UI")]
+    [SerializeField]
     private Slider fearBar;
+    [SerializeField]
+    private GameObject PauseScreen;
+    [SerializeField]
+    private GameObject LevelCompleteScreen;
+    [SerializeField]
+    private GameObject GameOverScreen;
 
     private CustomInput customInputActions;
+    private bool isPaused;
 
     private void Awake()
     {
@@ -24,18 +35,26 @@ public class LevelController : MonoBehaviour
         customInputActions.Admin.Enable();
 
         customInputActions.Admin.RestartLevel.performed += RestartLevel;
-        customInputActions.Admin.MainMenu.performed += GoToMainMenu;
+        customInputActions.Admin.PauseMenu.performed += PausePressed;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        fearBar.value = 0;
+        InitializeUI();
         ghost.GhostDeathEvent += GhostDeath;
         detective.DetectiveEndEvent += DetectiveEnd;
         detective.DetectiveFearEvent += DetectiveFearUpdate;
 
         StartCoroutine(WaitBeforeStartingDetective());
+    }
+
+    private void InitializeUI()
+    {
+        fearBar.value = 0;
+        TogglePauseMenu(false);
+        LevelCompleteScreen.SetActive(false);
+        GameOverScreen.SetActive(false);
     }
 
     IEnumerator WaitBeforeStartingDetective()
@@ -64,12 +83,10 @@ public class LevelController : MonoBehaviour
     {
         if(detectiveSucceeded)
         {
-            Debug.Log("boo GAME OVER");
             GameOver();
         }
         else
         {
-            Debug.Log("LEVEL FINISHED!");
             LevelComplete();
         }
         
@@ -77,15 +94,15 @@ public class LevelController : MonoBehaviour
 
     private void GameOver()
     {
-        // show relevent game over screen
-
+        GameOverScreen.SetActive(true);
         ghost.GameOver();
         detective.GameOver();
     }
 
     private void LevelComplete()
     {
-        // show level complete OR GoToNextLevel();
+        // LevelCompleteScreen.SetActive(true);
+        GoToNextLevel();
     }
 
     private void RestartLevel(InputAction.CallbackContext context)
@@ -95,11 +112,23 @@ public class LevelController : MonoBehaviour
 
     private void GoToNextLevel()
     {
-
+        SceneManager.LoadScene(nextLevelName);
     }
 
-    private void GoToMainMenu(InputAction.CallbackContext context)
+    private void PausePressed(InputAction.CallbackContext context)
     {
-        //SceneManager.LoadScene();
+        TogglePauseMenu(!isPaused);
+    }
+
+    public void TogglePauseMenu(bool show)
+    {
+        isPaused = show;
+        Time.timeScale = isPaused ? 0f : 1f;
+        PauseScreen.SetActive(show);
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(Constants.SCENE_MAIN_MENU);
     }
 }

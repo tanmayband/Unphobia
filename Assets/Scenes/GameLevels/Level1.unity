@@ -5941,6 +5941,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1746967596}
     - target: {fileID: 2973323160656243796, guid: 4bfea376c2da05846bd615455deee316, type: 3}
+      propertyPath: nextLevelName
+      value: Level2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973323160656243796, guid: 4bfea376c2da05846bd615455deee316, type: 3}
       propertyPath: detectiveEntersHouseAfter
       value: 2
       objectReference: {fileID: 0}

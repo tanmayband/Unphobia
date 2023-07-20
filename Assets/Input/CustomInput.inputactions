@@ -127,7 +127,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MainMenu",
+                    "name": "PauseMenu",
                     "type": "Button",
                     "id": "a3002c8b-1750-432f-a91c-6218837705c1",
                     "expectedControlType": "Button",
@@ -140,7 +140,7 @@
                 {
                     "name": "",
                     "id": "327f3413-6d0d-41fb-88f5-3cc95cb48fe6",
-                    "path": "<Keyboard>/h",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -151,11 +151,11 @@
                 {
                     "name": "",
                     "id": "40ebcaac-fc3d-42c8-b082-7ad33d3f00a2",
-                    "path": "<Keyboard>/j",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MainMenu",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

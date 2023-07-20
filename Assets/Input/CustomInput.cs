@@ -149,7 +149,7 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MainMenu"",
+                    ""name"": ""PauseMenu"",
                     ""type"": ""Button"",
                     ""id"": ""a3002c8b-1750-432f-a91c-6218837705c1"",
                     ""expectedControlType"": ""Button"",
@@ -162,7 +162,7 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""327f3413-6d0d-41fb-88f5-3cc95cb48fe6"",
-                    ""path"": ""<Keyboard>/h"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -173,11 +173,11 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""40ebcaac-fc3d-42c8-b082-7ad33d3f00a2"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MainMenu"",
+                    ""action"": ""PauseMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -194,7 +194,7 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
         // Admin
         m_Admin = asset.FindActionMap("Admin", throwIfNotFound: true);
         m_Admin_RestartLevel = m_Admin.FindAction("RestartLevel", throwIfNotFound: true);
-        m_Admin_MainMenu = m_Admin.FindAction("MainMenu", throwIfNotFound: true);
+        m_Admin_PauseMenu = m_Admin.FindAction("PauseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -319,13 +319,13 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Admin;
     private List<IAdminActions> m_AdminActionsCallbackInterfaces = new List<IAdminActions>();
     private readonly InputAction m_Admin_RestartLevel;
-    private readonly InputAction m_Admin_MainMenu;
+    private readonly InputAction m_Admin_PauseMenu;
     public struct AdminActions
     {
         private @CustomInput m_Wrapper;
         public AdminActions(@CustomInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @RestartLevel => m_Wrapper.m_Admin_RestartLevel;
-        public InputAction @MainMenu => m_Wrapper.m_Admin_MainMenu;
+        public InputAction @PauseMenu => m_Wrapper.m_Admin_PauseMenu;
         public InputActionMap Get() { return m_Wrapper.m_Admin; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -338,9 +338,9 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
             @RestartLevel.started += instance.OnRestartLevel;
             @RestartLevel.performed += instance.OnRestartLevel;
             @RestartLevel.canceled += instance.OnRestartLevel;
-            @MainMenu.started += instance.OnMainMenu;
-            @MainMenu.performed += instance.OnMainMenu;
-            @MainMenu.canceled += instance.OnMainMenu;
+            @PauseMenu.started += instance.OnPauseMenu;
+            @PauseMenu.performed += instance.OnPauseMenu;
+            @PauseMenu.canceled += instance.OnPauseMenu;
         }
 
         private void UnregisterCallbacks(IAdminActions instance)
@@ -348,9 +348,9 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
             @RestartLevel.started -= instance.OnRestartLevel;
             @RestartLevel.performed -= instance.OnRestartLevel;
             @RestartLevel.canceled -= instance.OnRestartLevel;
-            @MainMenu.started -= instance.OnMainMenu;
-            @MainMenu.performed -= instance.OnMainMenu;
-            @MainMenu.canceled -= instance.OnMainMenu;
+            @PauseMenu.started -= instance.OnPauseMenu;
+            @PauseMenu.performed -= instance.OnPauseMenu;
+            @PauseMenu.canceled -= instance.OnPauseMenu;
         }
 
         public void RemoveCallbacks(IAdminActions instance)
@@ -377,6 +377,6 @@ public partial class @CustomInput: IInputActionCollection2, IDisposable
     public interface IAdminActions
     {
         void OnRestartLevel(InputAction.CallbackContext context);
-        void OnMainMenu(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
     }
 }
