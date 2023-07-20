@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class LevelController : MonoBehaviour
     private DetectiveController detective;
     [SerializeField]
     private float detectiveEntersHouseAfter = 10;
+    [SerializeField]
+    private Slider fearBar;
 
     private CustomInput customInputActions;
 
@@ -27,6 +30,7 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        fearBar.value = 0;
         ghost.GhostDeathEvent += GhostDeath;
         detective.DetectiveEndEvent += DetectiveEnd;
         detective.DetectiveFearEvent += DetectiveFearUpdate;
@@ -45,9 +49,9 @@ public class LevelController : MonoBehaviour
         detective.EnterHouse();
     }
 
-    private void DetectiveFearUpdate(float newFear)
+    private void DetectiveFearUpdate(float newFearRatio)
     {
-        // update fear in UI
+        fearBar.value = newFearRatio;
     }
 
     private void GhostDeath()
