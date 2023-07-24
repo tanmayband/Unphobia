@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
-using UnityEngine.UI;
 
 public class DetectiveController : MonoBehaviour, IScareable
 {
@@ -15,8 +14,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private List<InvestigationDestination> investigationSpots;
     [SerializeField]
     private List<DetectiveDestination> hidingSpots;
-    [SerializeField]
-    private Slider fearBar;
+    
     [SerializeField]
     private float detectiveFear = 0;    // 0-100 (slow falling)
     public float maxFear = 50f;
@@ -53,7 +51,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     public delegate void DetectiveEndDelegate(bool succeeded);
     public event DetectiveEndDelegate DetectiveEndEvent;
-    public delegate void DetectiveFearDelegate(float currentFear);
+    public delegate void DetectiveFearDelegate(float currentFearRatio);
     public event DetectiveFearDelegate DetectiveFearEvent;
 
     private DetectiveDestination currentDestination;
@@ -297,13 +295,12 @@ public class DetectiveController : MonoBehaviour, IScareable
     private void SetFear(float newFear)
     {
         detectiveFear = newFear;
-        fearBar.value = detectiveFear / maxFear;
         // Debug.Log(detectiveFear);
         fearText.text = $"Fear: {detectiveFear.ToString("F2")}";
 
         if(detectiveFear > 0)
         {
-            DetectiveFearEvent?.Invoke(detectiveFear);
+            DetectiveFearEvent?.Invoke(detectiveFear / maxFear);
 
             DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
 
@@ -344,6 +341,7 @@ public class DetectiveController : MonoBehaviour, IScareable
             }
             case DETECTIVE_FEAR_LEVEL.FLEE:
             {
+                StopFearCooldown();
                 navMeshAgent.speed = runSpeed;
                 SetDetectiveState(DETECTIVE_STATE.FLEEING);
                 GoToDestination(houseEntrance);

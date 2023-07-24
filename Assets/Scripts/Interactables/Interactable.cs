@@ -25,10 +25,15 @@ public class Interactable : MonoBehaviour
 
     private void Start()
     {
-        SetState(INTERACTABLE_STATE.IDLE);
-        Unhighlight();
+        InitializeInteractable();
         influenceSphere.OnTriggerEnterEvent += OnInflunceEnter;
         influenceSphere.OnTriggerExitEvent += OnInflunceExit;
+    }
+
+    protected virtual void InitializeInteractable()
+    {
+        SetState(INTERACTABLE_STATE.IDLE);
+        Unhighlight();
     }
 
     private void SetState(INTERACTABLE_STATE newState)

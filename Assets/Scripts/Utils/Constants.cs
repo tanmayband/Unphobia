@@ -8,5 +8,6 @@ namespace ConstantUtils
     {
         public static readonly Color ColourInvestigationPending = new Color(0,0.2f,1);
         public static readonly Color ColourInvestigationOngoing = new Color(0,0.4f,0);
+        public static readonly string SCENE_MAIN_MENU = "MainMenuScene";
     }
 }
