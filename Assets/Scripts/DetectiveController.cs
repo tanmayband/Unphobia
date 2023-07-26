@@ -314,13 +314,13 @@ public class DetectiveController : MonoBehaviour, IScareable
 
             DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
 
-            if(detectiveFear <= maxFear / 3.34)
+            if(detectiveFear <= maxFear / 3.34)                     // f <= 30%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
-            else if(detectiveFear <= maxFear / 1.67)
+            else if(detectiveFear <= maxFear / 1.67)                // 30% < f <= 60%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.HIDE;
-            else if(detectiveFear <= maxFear / 1.12)
+            else if(detectiveFear <= maxFear / 1.12)                // 60% < f <= 90%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.ATTACK;
-            else
+            else                                                    // f > 90%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
 
             StartFearCooldown();
@@ -454,7 +454,10 @@ public class DetectiveController : MonoBehaviour, IScareable
         if(distanceFromGhost < 4f)
         {
             if(pursuitWarmupDone && Random.value > 0.8)
+            {
+                Debug.Log("killlll");
                 ghostObject.Kill();
+            }
         }
         else if(distanceFromGhost >= 5f)
         {

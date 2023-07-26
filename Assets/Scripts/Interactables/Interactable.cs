@@ -82,7 +82,6 @@ public class Interactable : MonoBehaviour
     IEnumerator InteractCooldown()
     {
         SetState(INTERACTABLE_STATE.COOLDOWN);
-        Unhighlight();
         float timeLeft = cooldownTime;
         while(timeLeft > 0)
         {
@@ -116,6 +115,7 @@ public class Interactable : MonoBehaviour
     {
         SetState(INTERACTABLE_STATE.ONGOING);
         interactAnim.SetTrigger("TriggerInteractable");
+        Unhighlight();
     }
 
     public virtual void StopEffect()
