@@ -2377,8 +2377,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -1.9250002, y: 0.35859966, z: 0}
-    m_Extent: {x: 10.9353, y: 8.4922, z: 0}
+    m_Center: {x: -1.9387498, y: 0.36089993, z: 0}
+    m_Extent: {x: 10.93605, y: 8.4921, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -2417,7 +2417,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 563365626}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -2463,7 +2463,7 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 74.057144
   m_PointLightOuterAngle: 166.62863
-  m_PointLightInnerRadius: 0.79
+  m_PointLightInnerRadius: 0.93
   m_PointLightOuterRadius: 2.42
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
@@ -3652,8 +3652,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.2965498, y: 1.0032997, z: 0}
-    m_Extent: {x: 23.86605, y: 16.8886, z: 0}
+    m_Center: {x: 0.29459953, y: 0.99745035, z: 0}
+    m_Extent: {x: 23.8722, y: 16.89705, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -5016,8 +5016,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.6843996, y: -0.8113501, z: 0}
-    m_Extent: {x: 13.9235, y: 8.22025, z: 0}
+    m_Center: {x: -0.68519974, y: -0.80974984, z: 0}
+    m_Extent: {x: 13.9228, y: 8.21465, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -6267,66 +6267,6 @@ PrefabInstance:
     - target: {fileID: 2508933154996459413, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_Color.g
-      value: 0.4001088
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_Intensity
-      value: 0.33
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_LightType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_FalloffIntensity
-      value: 0.566
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_PointLightInnerAngle
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_PointLightOuterAngle
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_PointLightInnerRadius
-      value: 0.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_PointLightOuterRadius
-      value: 3.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_LocalBounds.m_Center.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_LocalBounds.m_Center.y
-      value: -0.00000011920929
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_LocalBounds.m_Extent.x
-      value: 0.9985302
-      objectReference: {fileID: 0}
-    - target: {fileID: 3367372771221547741, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
-      propertyPath: m_LocalBounds.m_Extent.y
-      value: 0.99853027
       objectReference: {fileID: 0}
     - target: {fileID: 3399300541443859527, guid: 2316f7ae43994944bb0449cdcc4ed3e1, type: 3}
       propertyPath: m_AnchorMax.y
