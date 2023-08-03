@@ -34,7 +34,7 @@ public class LevelController : MonoBehaviour
         customInputActions = new CustomInput();
         customInputActions.Admin.Enable();
 
-        customInputActions.Admin.RestartLevel.performed += RestartLevel;
+        customInputActions.Admin.RestartLevel.performed += RestartPressed;
         customInputActions.Admin.PauseMenu.performed += PausePressed;
     }
 
@@ -105,7 +105,12 @@ public class LevelController : MonoBehaviour
         GoToNextLevel();
     }
 
-    private void RestartLevel(InputAction.CallbackContext context)
+    private void RestartPressed(InputAction.CallbackContext context)
+    {
+        RestartLevel();
+    }
+
+    public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

@@ -64,6 +64,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     private IGhost ghostObject;
     private float pursuitWarmup = 5;
     private bool pursuitWarmupDone;
+    private bool isDestinationReached = false;
 
     private void Awake()
     {
@@ -87,7 +88,7 @@ public class DetectiveController : MonoBehaviour, IScareable
     // Update is called once per frame
     void Update()
     {
-        if(currentState != DETECTIVE_STATE.DISABLED && currentState != DETECTIVE_STATE.GONE)
+        if(currentState != DETECTIVE_STATE.DISABLED && !isDestinationReached)
         {
             if(currentState != DETECTIVE_STATE.PURSUING)
             {
@@ -135,19 +136,28 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void GoToDestination(DetectiveDestination destination)
     {
+        isDestinationReached = false;
         currentDestination = destination;
         navMeshAgent.destination = currentDestination.GetDestinationLocation();
     }
 
     private void DestinationReached()
     {
+        isDestinationReached = true;
         currentDestination.DestinationReached();
+        // Debug.Log($"reached At {currentState}");
         switch (currentState)
         {
             case DETECTIVE_STATE.EXPLORING:
+            {
+                StartSpendingTimeOnDestination();
+                break;
+            }
             case DETECTIVE_STATE.GOINGHIDING:
             {
                 StartSpendingTimeOnDestination();
+                detectiveSprite.SetActive(false);
+                StartFearCooldown();
                 break;
             }
             case DETECTIVE_STATE.FLEEING:
@@ -156,10 +166,9 @@ public class DetectiveController : MonoBehaviour, IScareable
                 DetectiveEndEvent?.Invoke(false);
                 break;
             }
-            case DETECTIVE_STATE.HIDING:
+            case DETECTIVE_STATE.GONE:
             {
-                detectiveSprite.SetActive(false);
-                StartFearCooldown();
+                DetectiveEndEvent?.Invoke(true);
                 break;
             }
         }
@@ -184,6 +193,7 @@ public class DetectiveController : MonoBehaviour, IScareable
 
     private void DestinationInterrupt()
     {
+        isDestinationReached = false;
         currentDestination.DestinationInterrupted();
         if(timeSpendCoroutine != null)
             StopCoroutine(timeSpendCoroutine);
@@ -223,8 +233,8 @@ public class DetectiveController : MonoBehaviour, IScareable
         else
         {
             // everything investigated
-            SetDetectiveState(DETECTIVE_STATE.GONE); 
-            DetectiveEndEvent?.Invoke(true);
+            SetDetectiveState(DETECTIVE_STATE.GONE);
+            GoToDestination(houseEntrance);
         }
     }
 
@@ -304,13 +314,13 @@ public class DetectiveController : MonoBehaviour, IScareable
 
             DETECTIVE_FEAR_LEVEL previousFearLevel = currentFearLevel;
 
-            if(detectiveFear <= maxFear / 3.34)
+            if(detectiveFear <= maxFear / 3.34)                     // f <= 30%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.FREEZE;
-            else if(detectiveFear <= maxFear / 1.67)
+            else if(detectiveFear <= maxFear / 1.67)                // 30% < f <= 60%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.HIDE;
-            else if(detectiveFear <= maxFear / 1.12)
+            else if(detectiveFear <= maxFear / 1.12)                // 60% < f <= 90%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.ATTACK;
-            else
+            else                                                    // f > 90%
                 currentFearLevel = DETECTIVE_FEAR_LEVEL.FLEE;
 
             StartFearCooldown();
@@ -444,7 +454,10 @@ public class DetectiveController : MonoBehaviour, IScareable
         if(distanceFromGhost < 4f)
         {
             if(pursuitWarmupDone && Random.value > 0.8)
+            {
+                Debug.Log("killlll");
                 ghostObject.Kill();
+            }
         }
         else if(distanceFromGhost >= 5f)
         {

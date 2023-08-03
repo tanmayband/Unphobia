@@ -223,24 +223,13 @@ MonoBehaviour:
   highlightFX: {fileID: 7113907238513930179}
   interactAnim: {fileID: 3751751798866048254}
   audioSource: {fileID: 8071303165283576029}
-  influenceSphere: {fileID: 4815173932034931351}
+  influenceSphere: {fileID: 7353447370505083655}
   toggleObject: {fileID: 1554029390818795736}
 --- !u!95 &3751751798866048254 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6584992125932867132, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
   m_PrefabInstance: {fileID: 8030605403554249410}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4815173932034931351 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3287801712483975253, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
-  m_PrefabInstance: {fileID: 8030605403554249410}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 662dcf44139a80047b5b755cff588a28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &5133259943534975554 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2904665258428342400, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
@@ -251,6 +240,17 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 994132097824003329, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
   m_PrefabInstance: {fileID: 8030605403554249410}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7353447370505083655 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 684195837908263365, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
+  m_PrefabInstance: {fileID: 8030605403554249410}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662dcf44139a80047b5b755cff588a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &8071303165283576029 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 2265722268323172895, guid: 65033fcdc733c7041b9b69399d633857, type: 3}
