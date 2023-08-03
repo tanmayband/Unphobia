@@ -683,6 +683,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Detective
       objectReference: {fileID: 0}
+    - target: {fileID: 8423087580369702682, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e0235d9237f8d49c49c8325d7e2f8a67, type: 2}
     - target: {fileID: 8428553191045481329, guid: 268bb516fadf54f43b98a305896a8809, type: 3}
       propertyPath: fearBar
       value: 
@@ -2373,8 +2377,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -1.9228501, y: 0.36765003, z: 0}
-    m_Extent: {x: 10.937651, y: 8.49865, z: 0}
+    m_Center: {x: -1.9250002, y: 0.35859966, z: 0}
+    m_Extent: {x: 10.9353, y: 8.4922, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -3648,8 +3652,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.2923994, y: 1.0068994, z: 0}
-    m_Extent: {x: 23.867199, y: 16.8892, z: 0}
+    m_Center: {x: 0.2965498, y: 1.0032997, z: 0}
+    m_Extent: {x: 23.86605, y: 16.8886, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -5012,8 +5016,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.6817498, y: -0.8086002, z: 0}
-    m_Extent: {x: 13.920151, y: 8.2183, z: 0}
+    m_Center: {x: -0.6843996, y: -0.8113501, z: 0}
+    m_Extent: {x: 13.9235, y: 8.22025, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
